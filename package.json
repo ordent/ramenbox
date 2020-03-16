@@ -1,5 +1,5 @@
 {
-    "name": "@ordent/ramen-box",
+    "name": "@ordent/ramenbox",
     "version": "2.0.0",
     "main": "index.js",
     "scripts": {
@@ -7,14 +7,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ordent/ramen-box.git"
+        "url": "git+https://github.com/ordent/ramenbox.git"
     },
     "author": "dimassrio",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/ordent/ramen-box/issues"
+        "url": "https://github.com/ordent/ramenbox/issues"
     },
-    "homepage": "https://github.com/ordent/ramen-box#readme",
+    "homepage": "https://github.com/ordent/ramenbox#readme",
     "dependencies": {
         "@adonisjs/fold": "^4.0.9",
         "@adonisjs/generic-exceptions": "^3.0.1",

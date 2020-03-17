@@ -1,3 +1,3 @@
-export default class SobaServices {
+export declare class SobaServices {
     assign(item: any): any;
 }

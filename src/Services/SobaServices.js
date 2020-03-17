@@ -4,4 +4,4 @@ class SobaServices {
     assign(item) {
     }
 }
-exports.default = SobaServices;
+exports.SobaServices = SobaServices;

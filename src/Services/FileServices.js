@@ -13,7 +13,7 @@ const SobaServices_1 = require("./SobaServices");
 const shortid_1 = require("shortid");
 const mime_types_1 = require("mime-types");
 const Drive = use('Drive');
-class FileServices extends SobaServices_1.default {
+class FileServices extends SobaServices_1.SobaServices {
     assign(item) {
         return __awaiter(this, void 0, void 0, function* () {
             let name = shortid_1.default.generate();

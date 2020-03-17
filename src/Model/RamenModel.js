@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _ = require("lodash-inflection");
+const lodash_1 = require("lodash");
+const lodash_inflection_1 = require("lodash-inflection");
 const RamenTransformerGenerator_1 = require("../Transformer/RamenTransformerGenerator");
 const RamenFilterGenerator_1 = require("./../Validator/RamenFilterGenerator");
 const Model = use('Model');
@@ -34,7 +35,7 @@ class RamenModel extends Model {
     }
     static get getIncludeRelations() {
         return this.relations.map((element) => {
-            return `include${_.capitalize(_.pluralize(Object.keys(element).pop()))}`;
+            return `include${lodash_1.capitalize(lodash_inflection_1.pluralize(Object.keys(element).pop()))}`;
         });
     }
     static get getAvailableInclude() {

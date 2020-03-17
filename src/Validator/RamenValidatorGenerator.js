@@ -36,7 +36,7 @@ exports.RamenValidatorGenerator = (base) => {
                         validation = yield validateAll(value, base.rules[type]);
                     }
                 }
-                if (validation.fails()) {
+                if (validation && validation.fails()) {
                     const message = {};
                     validation.messages().forEach((f) => {
                         message[f.field] = Object.assign({}, { message: f.message, validation: f.validation });

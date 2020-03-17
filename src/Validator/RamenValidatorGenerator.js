@@ -27,10 +27,14 @@ exports.RamenValidatorGenerator = (base) => {
             return __awaiter(this, void 0, void 0, function* () {
                 let validation = null;
                 if (Env.get('VALIDATION_TYPE', 'SINGLE') === 'SINGLE') {
-                    validation = yield validate(value, base.rules[type]);
+                    if (base.rules[type]) {
+                        validation = yield validate(value, base.rules[type]);
+                    }
                 }
                 else {
-                    validation = yield validateAll(value, base.rules[type]);
+                    if (base.rules[type]) {
+                        validation = yield validateAll(value, base.rules[type]);
+                    }
                 }
                 if (validation.fails()) {
                     const message = {};

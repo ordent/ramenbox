@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = require("lodash-inflection");
 const RamenTransformerGenerator_1 = require("../Transformer/RamenTransformerGenerator");
-const ModelFilter = use('App/Filter/UserFilter');
+// const ModelFilter = use('App/Filter/UserFilter')
 const { RamenFilterGenerator } = use('./../Validator/RamenFilterGenerator');
 const Model = use('Model');
 const TransformerAbstract = use('Bumblebee/Transformer');

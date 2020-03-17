@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const NotFoundException_1 = require("../Exception/NotFoundException");
-// import {DataSerializer} from 'adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer'
-const DataSerializer = require('adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer');
+const DataSerializer_1 = require("adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer");
+// const DataSerializer = require('adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer')
 class RamenResponse {
     constructor(response, request) {
         this.response = response;
@@ -44,7 +44,7 @@ class RamenResponse {
     }
     setManager(manager) {
         this.manager = manager;
-        this.manager.setSerializer(new DataSerializer);
+        this.manager.setSerializer(new DataSerializer_1.default);
         // console.log(DataSerializer, this.manager)
         return this;
     }
@@ -79,4 +79,4 @@ class RamenResponse {
         return this.meta;
     }
 }
-exports.default = RamenResponse;
+exports.RamenResponse = RamenResponse;

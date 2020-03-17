@@ -13,8 +13,8 @@ const RamenResponse_1 = require("../Lifecycle/RamenResponse");
 const RamenRepository_1 = require("../Repository/RamenRepository");
 const Utilities_1 = require("../Utilities");
 const RamenValidatorGenerator_1 = require("../Validator/RamenValidatorGenerator");
-const isBase64 = require('is-base64');
-const { FileServices } = require('./FileServices');
+const is_base64_1 = require("is-base64");
+const FileServices_1 = require("./FileServices");
 class RamenServices {
     constructor(item) {
         this.validator = null;
@@ -25,20 +25,20 @@ class RamenServices {
         this.configurations = {};
         this.services = [];
         this.validation = null;
-        this.repository = new RamenRepository_1.default();
+        this.repository = new RamenRepository_1.RamenRepository();
         this.configurations = {
             FileServices: function (item) {
-                return ((typeof item === 'object') || ((typeof item === 'string') && (isBase64(item)) && (item.includes('data:image'))));
+                return ((typeof item === 'object') || ((typeof item === 'string') && (is_base64_1.default(item)) && (item.includes('data:image'))));
             }
         };
-        this.services = [FileServices];
-        this.response = new RamenResponse_1.default();
+        this.services = [FileServices_1.FileServices];
+        this.response = new RamenResponse_1.RamenResponse();
         // this.setResponse(new RamenResponse())
-        if (item instanceof RamenRepository_1.default) {
+        if (item instanceof RamenRepository_1.RamenRepository) {
             this.setRepository(item);
         }
         else {
-            this.setRepository(new RamenRepository_1.default(item));
+            this.setRepository(new RamenRepository_1.RamenRepository(item));
             const validator = new (RamenValidatorGenerator_1.RamenValidatorGenerator(item));
             this.setValidator(validator);
             this.getResponse().setTransformers(item.transformers);
@@ -67,11 +67,11 @@ class RamenServices {
         return this.sanity;
     }
     setResponse(response) {
-        if (response instanceof RamenResponse_1.default) {
+        if (response instanceof RamenResponse_1.RamenResponse) {
             this.response = response;
         }
         else {
-            this.response = new RamenResponse_1.default(response);
+            this.response = new RamenResponse_1.RamenResponse(response);
         }
     }
     getResponse() {

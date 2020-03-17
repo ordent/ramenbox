@@ -107,4 +107,4 @@ class RamenRepository {
         });
     }
 }
-exports.default = RamenRepository;
+exports.RamenRepository = RamenRepository;

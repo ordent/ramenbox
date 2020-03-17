@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // 'use strict'
-const _ = require('lodash');
+// const _ = require('lodash')
+const lodash_1 = require("lodash");
 const ModelFilter = use('ModelFilter');
 exports.RamenFilterGenerator = (properties) => {
     const result = class RamenFilter extends ModelFilter {
@@ -10,7 +11,7 @@ exports.RamenFilterGenerator = (properties) => {
         }
     };
     properties.forEach((element) => {
-        result.prototype[_.camelCase(element)] = function (value) {
+        result.prototype[lodash_1.camelCase(element)] = function (value) {
             if (Array.isArray(value)) {
                 return this.whereIn(element, value);
             }

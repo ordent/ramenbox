@@ -1,5 +1,5 @@
 import { RamenModel } from '../Model/RamenModel';
-export default class RamenResponse {
+export declare class RamenResponse {
     response: any;
     request: any;
     status: number;

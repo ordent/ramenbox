@@ -1,5 +1,5 @@
-import RamenResponse from "../Lifecycle/RamenResponse";
-import RamenRepository from "../Repository/RamenRepository";
+import { RamenResponse } from "../Lifecycle/RamenResponse";
+import { RamenRepository } from "../Repository/RamenRepository";
 import { RamenValidatorInterface } from "../Validator/RamenValidatorGenerator";
 export interface RamenServicesInterface {
     repository: RamenRepository;

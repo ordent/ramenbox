@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// const TransformerAbstract = require('adonis-bumblebee/src/Bumblebee/TransformerAbstract')
 const TransformerAbstract = use('Bumblebee/Transformer');
-const { ioc } = require('@adonisjs/fold');
-const _ = require('lodash');
-const { capitalize } = require('../Utilities');
+const fold_1 = require("@adonisjs/fold");
+const lodash_1 = require("lodash");
+const lodash_inflection_1 = require("lodash-inflection");
+const Utilities_1 = require("../Utilities");
 const isJSON = (str) => {
-    return !_.isError(_.attempt(JSON.parse, str));
+    return !lodash_1.isError(lodash_1.attempt(JSON.parse, str));
 };
 class RamenTransformer extends TransformerAbstract {
 }
 exports.RamenTransformer = RamenTransformer;
 exports.RamenTransformerGenerator = (m, n = []) => {
-    _.mixin(require('lodash-inflection'));
+    lodash_1.mixin(require('lodash-inflection'));
     const result = class RamenTransformer extends TransformerAbstract {
         static get defaultInclude() {
             return m.getDefaultInclude;
@@ -23,7 +23,7 @@ exports.RamenTransformerGenerator = (m, n = []) => {
         transform(model) {
             const result = {};
             if (m.properties) {
-                _.difference(m.properties, m.hidden).forEach((element) => {
+                lodash_1.difference(m.properties, m.hidden).forEach((element) => {
                     if (isJSON(model[element])) {
                         result[element] = JSON.parse(model[element]);
                     }
@@ -37,8 +37,8 @@ exports.RamenTransformerGenerator = (m, n = []) => {
     };
     if (m.relations) {
         m.relations.forEach((element) => {
-            const model = capitalize(element);
-            result.prototype[`include${_.pluralize(model)}`] = function transforming(item) {
+            const model = Utilities_1.capitalize(element);
+            result.prototype[`include${lodash_inflection_1.pluralize(model)}`] = function transforming(item) {
                 let type = 'item';
                 if (item[element]() && item[element]().$relation) {
                     if (item[element]().$relation.name === 'HasOne' || item[element]().$relation.name === 'BelongsTo') {
@@ -49,9 +49,9 @@ exports.RamenTransformerGenerator = (m, n = []) => {
                     }
                 }
                 const n = (item.getRelated(element) || {}).$relations ? Object.keys(item.getRelated(element).$relations) : [];
-                return this[type](item.getRelated(element), ioc.use(`App/Models/${capitalize(_.singularize(item[element]().$relation.foreignTable))}`).transformer
-                    ? ioc.use(`App/Models/${capitalize(_.singularize(item[element]().$relation.foreignTable))}`).transformer
-                    : exports.RamenTransformerGenerator(ioc.use(`App/Models/${capitalize(_.singularize(item[element]().$relation.foreignTable))}`), n));
+                return this[type](item.getRelated(element), fold_1.ioc.use(`App/Models/${Utilities_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
+                    ? fold_1.ioc.use(`App/Models/${Utilities_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
+                    : exports.RamenTransformerGenerator(fold_1.ioc.use(`App/Models/${Utilities_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`), n));
             };
         });
     }

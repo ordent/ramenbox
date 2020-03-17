@@ -9,7 +9,7 @@ interface collectionResult {
     failed: Array<collectionParameter>;
     error: Array<RamenException>;
 }
-export default class RamenRepository {
+export declare class RamenRepository {
     model: RamenModel;
     constructor(model?: RamenModel);
     setModel(model: RamenModel): RamenRepository;

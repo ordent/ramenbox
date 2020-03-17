@@ -2,10 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = require("lodash-inflection");
 const RamenTransformerGenerator_1 = require("../Transformer/RamenTransformerGenerator");
-// const ModelFilter = use('App/Filter/UserFilter')
-const { RamenFilterGenerator } = use('./../Validator/RamenFilterGenerator');
+const RamenFilterGenerator_1 = require("./../Validator/RamenFilterGenerator");
 const Model = use('Model');
-const TransformerAbstract = use('Bumblebee/Transformer');
 class RamenModel extends Model {
     constructor() {
         super();
@@ -14,7 +12,7 @@ class RamenModel extends Model {
         super.boot();
         // console.log(RamenFilterGenerator(this.properties))
         // console.log(RamenTransformer)
-        this.addTrait('@provider:Filterable', RamenFilterGenerator(this.properties));
+        this.addTrait('@provider:Filterable', RamenFilterGenerator_1.RamenFilterGenerator(this.properties));
     }
     static get slug() {
         return null;

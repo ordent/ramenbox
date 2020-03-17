@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const SobaServices_1 = require("./SobaServices");
+const shortid_1 = require("shortid");
+const mime_types_1 = require("mime-types");
 const Drive = use('Drive');
-const shortid = require('shortid');
-const mime = require('mime-types');
 class FileServices extends SobaServices_1.default {
     assign(item) {
         return __awaiter(this, void 0, void 0, function* () {
-            let name = shortid.generate();
+            let name = shortid_1.default.generate();
             if (typeof item === 'object') {
-                name = `${Buffer.from(item.tmpPath).toString('base64').replace('=', 'A')}.${mime.extension(mime.lookup(item.clientName))}`;
+                name = `${Buffer.from(item.tmpPath).toString('base64').replace('=', 'A')}.${mime_types_1.default.extension(mime_types_1.default.lookup(item.clientName))}`;
             }
             try {
                 yield Drive.put(name, item);

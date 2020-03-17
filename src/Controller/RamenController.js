@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const RamenServices_1 = require("../Services/RamenServices");
-const RamenRepository = require('../Repository/RamenRepository');
 class RamenController {
     constructor(item) {
         this.services = null;
@@ -79,4 +78,5 @@ class RamenController {
         });
     }
 }
-module.exports = RamenController;
+exports.RamenController = RamenController;
+// module.exports = RamenController

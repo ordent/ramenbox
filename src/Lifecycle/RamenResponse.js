@@ -14,10 +14,9 @@ const NotFoundException_1 = require("../Exception/NotFoundException");
 const DataSerializer = require('adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer');
 class RamenResponse {
     constructor(response, request) {
-        this.response = response;
-        this.request = request;
+        this.response = response ? response : null;
+        this.request = request ? request : null;
         this.status = 200;
-        // this.transformer = {}
         this.manager = {};
         this.meta = { status: this.getStatus(), message: 'item retrieval success' };
     }
@@ -45,7 +44,6 @@ class RamenResponse {
     setManager(manager) {
         this.manager = manager;
         this.manager.setSerializer(new DataSerializer);
-        // console.log(, this.manager)
         return this;
     }
     getManager() {

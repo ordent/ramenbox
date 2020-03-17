@@ -17,6 +17,7 @@ const is_base64_1 = require("is-base64");
 const FileServices_1 = require("./FileServices");
 class RamenServices {
     constructor(item) {
+        this.repository = null;
         this.validator = null;
         this.properties = null;
         this.filter = null;
@@ -25,24 +26,19 @@ class RamenServices {
         this.configurations = {};
         this.services = [];
         this.validation = null;
-        this.repository = new RamenRepository_1.RamenRepository();
         this.configurations = {
             FileServices: function (item) {
                 return ((typeof item === 'object') || ((typeof item === 'string') && (is_base64_1.default(item)) && (item.includes('data:image'))));
             }
         };
-        this.services = [FileServices_1.FileServices];
+        this.services = [new FileServices_1.FileServices];
         this.response = new RamenResponse_1.RamenResponse();
-        // this.setResponse(new RamenResponse())
         if (item instanceof RamenRepository_1.RamenRepository) {
             this.setRepository(item);
         }
         else {
-            this.setRepository(new RamenRepository_1.RamenRepository(item));
             const validator = new (RamenValidatorGenerator_1.RamenValidatorGenerator(item));
-            this.setValidator(validator);
-            this.getResponse().setTransformers(item.transformers);
-            // console.log('transformer',this.getResponse().getTransformers())
+            this.setRepository(new RamenRepository_1.RamenRepository(item)).setValidator(validator).getResponse().setTransformers(item.transformers);
         }
     }
     setRepository(repository) {
@@ -67,18 +63,15 @@ class RamenServices {
         return this.sanity;
     }
     setResponse(response) {
-        if (response instanceof RamenResponse_1.RamenResponse) {
-            this.response = response;
-        }
-        else {
-            this.response = new RamenResponse_1.RamenResponse(response);
-        }
+        this.response = response instanceof RamenResponse_1.RamenResponse ? response : new RamenResponse_1.RamenResponse(response);
+        return this;
     }
     getResponse() {
         return this.response;
     }
     setValidator(validator) {
         this.validator = validator;
+        return this;
     }
     getValidator() {
         return this.validator;
@@ -138,7 +131,7 @@ class RamenServices {
             this.properties = {};
             for (const key in items) {
                 let service = this.resolveServices(items[key]);
-                service = service ? new service() : service;
+                // service = service ? new service() : service
                 this.properties[key] = service ? yield service.assign(items[key]) : items[key];
             }
             return this.properties;
@@ -147,7 +140,7 @@ class RamenServices {
     validate(value, type) {
         return __awaiter(this, void 0, void 0, function* () {
             this.validation = yield this.getValidator().validate(value, type);
-            return this;
+            return this.validation;
         });
     }
     sanitize(value, type) {

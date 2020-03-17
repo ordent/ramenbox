@@ -19,63 +19,45 @@ class RamenController {
         return this.services;
     }
     setServices(item) {
-        if (item instanceof RamenServices_1.RamenServices) {
-            this.services = item;
-        }
-        else {
-            this.services = new RamenServices_1.RamenServices(item);
-        }
+        this.services = item instanceof RamenServices_1.RamenServices ? item : new RamenServices_1.RamenServices(item);
+        return this;
     }
     index({ request, response, transform }) {
-        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
-            // const t0 = performance.now()
-            (_a = this.getServices()) === null || _a === void 0 ? void 0 : _a.getResponse().setResponse(response);
-            (_b = this.getServices()) === null || _b === void 0 ? void 0 : _b.getResponse().setManager(transform);
-            const data = yield ((_c = this.getServices()) === null || _c === void 0 ? void 0 : _c.getCollection(request));
-            //     const t1 = performance.now()
-            // console.log(`${(t1-t0)/1000} seconds`)
+            this.getServices().getResponse().setResponse(response);
+            this.getServices().getResponse().setManager(transform);
+            const data = yield this.getServices().getCollection(request);
             return data;
         });
     }
     show({ request, response, transform }) {
-        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
-            (_a = this.getServices()) === null || _a === void 0 ? void 0 : _a.getResponse().setResponse(response);
-            (_b = this.getServices()) === null || _b === void 0 ? void 0 : _b.getResponse().setManager(transform);
-            const data = yield ((_c = this.getServices()) === null || _c === void 0 ? void 0 : _c.getItem(request.params.id, request));
-            // console.log('data', data)
-            //     const t1 = performance.now()
-            // console.log(`${(t1-t0)/1000} seconds`)
+            this.getServices().getResponse().setResponse(response);
+            this.getServices().getResponse().setManager(transform);
+            const data = yield this.getServices().getItem(request.params.id, request);
             return data;
         });
     }
     store({ request, response, transform }) {
-        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
-            // console.log('store')
-            (_a = this.getServices()) === null || _a === void 0 ? void 0 : _a.getResponse().setResponse(response);
-            (_b = this.getServices()) === null || _b === void 0 ? void 0 : _b.getResponse().setManager(transform);
-            const data = yield ((_c = this.getServices()) === null || _c === void 0 ? void 0 : _c.postItem(request));
+            this.getServices().getResponse().setResponse(response);
+            this.getServices().getResponse().setManager(transform);
+            const data = yield this.getServices().postItem(request);
             return data;
         });
     }
     update({ request, response, transform }) {
-        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
-            (_a = this.getServices()) === null || _a === void 0 ? void 0 : _a.getResponse().setResponse(response);
-            (_b = this.getServices()) === null || _b === void 0 ? void 0 : _b.getResponse().setManager(transform);
-            const data = (_c = this.getServices()) === null || _c === void 0 ? void 0 : _c.putItem(request.params.id, request);
+            this.getServices().getResponse().setResponse(response);
+            this.getServices().getResponse().setManager(transform);
+            const data = this.getServices().putItem(request.params.id, request);
             return data;
         });
     }
     delete({ request, response, transform }) {
-        var _a, _b, _c;
-        return __awaiter(this, void 0, void 0, function* () {
-            (_a = this.getServices()) === null || _a === void 0 ? void 0 : _a.getResponse().setResponse(response);
-            (_b = this.getServices()) === null || _b === void 0 ? void 0 : _b.getResponse().setManager(transform);
-            const data = (_c = this.getServices()) === null || _c === void 0 ? void 0 : _c.deleteItem(request);
-        });
+        this.getServices().getResponse().setResponse(response);
+        this.getServices().getResponse().setManager(transform);
+        this.getServices().deleteItem(request);
     }
 }
 exports.RamenController = RamenController;

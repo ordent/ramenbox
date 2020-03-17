@@ -4,15 +4,12 @@ const TransformerAbstract = use('Bumblebee/Transformer');
 const fold_1 = require("@adonisjs/fold");
 const lodash_1 = require("lodash");
 const lodash_inflection_1 = require("lodash-inflection");
-const Utilities_1 = require("../Utilities");
+// import {capitalize} from '../Utilities'
 const isJSON = (str) => {
     return !lodash_1.isError(lodash_1.attempt(JSON.parse, str));
 };
-class RamenTransformer extends TransformerAbstract {
-}
-exports.RamenTransformer = RamenTransformer;
 exports.RamenTransformerGenerator = (m, n = []) => {
-    lodash_1.mixin(require('lodash-inflection'));
+    // mixin(require('lodash-inflection'))
     const result = class RamenTransformer extends TransformerAbstract {
         static get defaultInclude() {
             return m.getDefaultInclude;
@@ -37,7 +34,7 @@ exports.RamenTransformerGenerator = (m, n = []) => {
     };
     if (m.relations) {
         m.relations.forEach((element) => {
-            const model = Utilities_1.capitalize(element);
+            const model = lodash_1.capitalize(element);
             result.prototype[`include${lodash_inflection_1.pluralize(model)}`] = function transforming(item) {
                 let type = 'item';
                 if (item[element]() && item[element]().$relation) {
@@ -49,13 +46,11 @@ exports.RamenTransformerGenerator = (m, n = []) => {
                     }
                 }
                 const n = (item.getRelated(element) || {}).$relations ? Object.keys(item.getRelated(element).$relations) : [];
-                return this[type](item.getRelated(element), fold_1.ioc.use(`App/Models/${Utilities_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
-                    ? fold_1.ioc.use(`App/Models/${Utilities_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
-                    : exports.RamenTransformerGenerator(fold_1.ioc.use(`App/Models/${Utilities_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`), n));
+                return this[type](item.getRelated(element), fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
+                    ? fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
+                    : exports.RamenTransformerGenerator(fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`), n));
             };
         });
     }
     return result;
-    // return class RamenTransform {
-    // }
 };

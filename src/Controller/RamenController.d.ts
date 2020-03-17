@@ -3,8 +3,8 @@ import { RamenModel } from "../Model/RamenModel";
 export declare class RamenController {
     services: RamenServices | null;
     constructor(item: any);
-    getServices(): RamenServices | null;
-    setServices(item: RamenServices | RamenModel): void;
+    getServices(): RamenServices;
+    setServices(item: RamenServices | RamenModel): RamenController;
     index({ request, response, transform }: {
         request: any;
         response: any;
@@ -29,5 +29,5 @@ export declare class RamenController {
         request: any;
         response: any;
         transform: any;
-    }): Promise<void>;
+    }): void;
 }

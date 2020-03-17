@@ -1,9 +1,10 @@
 import { RamenModel } from '../Model/RamenModel';
+import { RamenTransformerInterface } from '../Transformer/RamenTransformerGenerator';
 export declare class RamenResponse {
     response: any;
     request: any;
     status: number;
-    transformer: any;
+    transformer: RamenTransformerInterface;
     manager: any;
     meta: object;
     constructor(response?: any, request?: any);
@@ -12,13 +13,13 @@ export declare class RamenResponse {
     setRequest(request: any): RamenResponse;
     getRequest(): RamenResponse;
     setTransformers(transformer: any): RamenResponse;
-    getTransformers(): any;
+    getTransformers(): RamenTransformerInterface;
     setManager(manager: any): RamenResponse;
     getManager(): any;
-    item(item: RamenModel | null, relations: string): Promise<any>;
+    item(item: RamenModel | null, relations: string): Promise<object>;
     setStatus(status: number): RamenResponse;
     getStatus(): number;
-    collection(items: Array<any>, relations?: string): Promise<any>;
-    setMeta(item: object): this;
+    collection(items: Array<any>, relations?: string): Promise<object>;
+    setMeta(item: object): RamenResponse;
     getMeta(): object;
 }

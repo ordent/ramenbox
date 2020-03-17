@@ -1,13 +1,7 @@
-import { RamenException } from "../Exception";
 import { RamenModel } from "../Model/RamenModel";
 interface collectionParameter {
     page: number | string;
     limit: number | string;
-}
-interface collectionResult {
-    success: Array<typeof RamenModel>;
-    failed: Array<collectionParameter>;
-    error: Array<RamenException>;
 }
 export declare class RamenRepository {
     model: RamenModel;
@@ -18,7 +12,7 @@ export declare class RamenRepository {
     getItem(value: string): Promise<any>;
     getCollection(parameters: collectionParameter): Promise<any>;
     postItem(parameter: collectionParameter): Promise<any>;
-    postCollection(parameters: Array<collectionParameter>): Promise<collectionResult>;
+    postCollection(parameters: Array<collectionParameter>): Promise<any>;
     putItem(value: string, parameter: collectionParameter): Promise<any>;
     deleteItem(id: string): Promise<void>;
 }

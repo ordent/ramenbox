@@ -11,8 +11,6 @@ class RamenModel extends Model {
     }
     static boot() {
         super.boot();
-        // console.log(RamenFilterGenerator(this.properties))
-        // console.log(RamenTransformer)
         this.addTrait('@provider:Filterable', RamenFilterGenerator_1.RamenFilterGenerator(this.properties));
     }
     static get slug() {

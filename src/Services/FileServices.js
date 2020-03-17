@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const SobaServices_1 = require("./SobaServices");
+const UndefinedException_1 = require("../Exception/UndefinedException");
 const shortid_1 = require("shortid");
 const mime_types_1 = require("mime-types");
 const Drive = use('Drive');
@@ -25,7 +26,7 @@ class FileServices extends SobaServices_1.SobaServices {
                 return yield Drive.getUrl(name);
             }
             catch (e) {
-                console.log(name, e);
+                throw new UndefinedException_1.UndefinedException('File Services have a problem');
             }
         });
     }

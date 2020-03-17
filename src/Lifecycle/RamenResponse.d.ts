@@ -17,9 +17,11 @@ export declare class RamenResponse {
     setManager(manager: any): RamenResponse;
     getManager(): any;
     item(item: RamenModel | null, relations: string): Promise<object>;
+    rawItem(item: any): Promise<object>;
     setStatus(status: number): RamenResponse;
     getStatus(): number;
     collection(items: Array<any>, relations?: string): Promise<object>;
+    rawCollection(items: Array<any>): Promise<object>;
     setMeta(item: object): RamenResponse;
     getMeta(): object;
 }

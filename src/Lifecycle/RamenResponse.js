@@ -57,6 +57,14 @@ class RamenResponse {
             return yield this.getManager().include(relations).meta(this.getMeta()).item(item, this.getTransformers());
         });
     }
+    rawItem(item) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!item) {
+                throw new NotFoundException_1.NotFoundException('item not found');
+            }
+            return yield this.getManager().meta(this.getMeta()).item(item);
+        });
+    }
     setStatus(status) {
         this.status = status;
         return this;
@@ -67,6 +75,11 @@ class RamenResponse {
     collection(items, relations = '') {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.getManager().include(relations).paginate(items, this.getTransformers());
+        });
+    }
+    rawCollection(items) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.getManager().collection(items);
         });
     }
     setMeta(item) {

@@ -51,8 +51,8 @@ exports.RamenTransformerGenerator = (m, n = []) => {
                     }
                 }
                 const n = (item.getRelated(element) || {}).$relations ? Object.keys(item.getRelated(element).$relations) : [];
-                const serializer = type === 'item' ? PlainSerializer : DataSerializer;
-                return this.setSerializer(serializer)[type](item.getRelated(element), fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
+                // const serializer = type === 'item' ? PlainSerializer : DataSerializer
+                return this[type](item.getRelated(element), fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
                     ? fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`).transformer
                     : exports.RamenTransformerGenerator(fold_1.ioc.use(`App/Models/${lodash_1.capitalize(lodash_inflection_1.singularize(item[element]().$relation.foreignTable))}`), n));
             };

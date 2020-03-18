@@ -54,3 +54,11 @@ exports.RamenTransformerGenerator = (m, n = []) => {
     }
     return result;
 };
+exports.RamenTransformerFactory = (item) => {
+    const result = class RamenTransformer extends TransformerAbstract {
+        transform(item) {
+            return item;
+        }
+    };
+    return result;
+};

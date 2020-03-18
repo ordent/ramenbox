@@ -33,7 +33,7 @@ exports.RamenTransformerGenerator = (m, n = []) => {
         }
     };
     if (m.relations) {
-        m.getIncludeRelations.forEach((element) => {
+        m.relations.forEach((element) => {
             const model = lodash_1.capitalize(element);
             result.prototype[`include${lodash_inflection_1.pluralize(model)}`] = function transforming(item) {
                 let type = 'item';

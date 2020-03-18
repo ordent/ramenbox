@@ -58,13 +58,13 @@ class RamenResponse {
             return yield this.getManager().include(relations).meta(this.getMeta()).item(item, this.getTransformers());
         });
     }
-    rawItem(item, transformer = null) {
+    rawItem(item, relations = '', transformer = null) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!item) {
                 throw new NotFoundException_1.NotFoundException('item not found');
             }
             const t = transformer ? transformer : RamenTransformerGenerator_1.RamenTransformerFactory(item);
-            return yield this.getManager().meta(this.getMeta()).item(item, t);
+            return yield this.getManager().meta(this.getMeta()).include(relations).item(item, t);
         });
     }
     setStatus(status) {
@@ -79,10 +79,10 @@ class RamenResponse {
             return yield this.getManager().include(relations).paginate(items, this.getTransformers());
         });
     }
-    rawCollection(items, transformer = null) {
+    rawCollection(items, relations = '', transformer = null) {
         return __awaiter(this, void 0, void 0, function* () {
             const t = transformer ? transformer : RamenTransformerGenerator_1.RamenTransformerFactory(items.pop());
-            return yield this.getManager().collection(items, t);
+            return yield this.getManager().include(relations).collection(items, t);
         });
     }
     setMeta(item) {

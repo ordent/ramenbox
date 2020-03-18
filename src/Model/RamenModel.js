@@ -44,7 +44,7 @@ class RamenModel extends Model {
     static get getDefaultInclude() {
         const result = [];
         this.relations.forEach((element) => {
-            if (`${Object.keys(element).pop()}` === 'default') {
+            if (`${Object.values(element).pop()}` === 'default') {
                 result.push(`${Object.keys(element).pop()}`);
             }
         });

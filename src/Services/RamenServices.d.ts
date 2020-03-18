@@ -41,7 +41,6 @@ export declare class RamenServices {
     getItem(value: string, request: any): Promise<object>;
     getCollection(request: any): Promise<object>;
     postItem(request: any): Promise<object>;
-    postCollection(request: any): Promise<object>;
     putItem(value: string, request: any): Promise<object>;
     deleteItem(value: string): Promise<void>;
 }

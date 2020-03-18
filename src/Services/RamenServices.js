@@ -212,16 +212,14 @@ class RamenServices {
             return this.getResponse().setStatus(201).item(result, relations);
         });
     }
-    postCollection(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const relations = request.input('with', '');
-            const body = Utilities_1.requestBody(request);
-            yield this.sanitize(body, 'post');
-            yield this.validate(body, 'post');
-            const result = yield this.getRepository().postCollection(body);
-            return this.getResponse().setStatus(201).item(result, relations);
-        });
-    }
+    // async postCollection(request:any):Promise<object>{
+    //     // const relations = request.input('with', '')
+    //     // const body = requestBody(request)
+    //     // await this.sanitize(body, 'post')
+    //     // await this.validate(body, 'post')
+    //     // // const result = await this.getRepository().postCollection(body)
+    //     // return this.getResponse().setStatus(201).item(result, relations)
+    // }
     putItem(value, request) {
         return __awaiter(this, void 0, void 0, function* () {
             const relations = request.input('with', '');

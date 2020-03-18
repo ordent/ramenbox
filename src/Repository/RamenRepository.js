@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Exception_1 = require("../Exception");
 const RamenModel_1 = require("../Model/RamenModel");
+const Utilities_1 = require("../Utilities");
 class RamenRepository {
     constructor(model) {
         this.model = model ? model : RamenModel_1.RamenModel;
@@ -47,8 +48,9 @@ class RamenRepository {
     postItem(parameter) {
         return __awaiter(this, void 0, void 0, function* () {
             let item = null;
+            const param = this.getModel().properties ? Utilities_1.requestProperties(parameter, this.getModel().properties) : parameter;
             try {
-                item = yield this.getModel().create(parameter);
+                item = yield this.getModel().create(param);
             }
             catch (e) {
                 throw new Exception_1.UnprocessableEntityException({
@@ -85,8 +87,9 @@ class RamenRepository {
     }
     putItem(value, parameter) {
         return __awaiter(this, void 0, void 0, function* () {
+            const param = this.getModel().properties ? Utilities_1.requestProperties(parameter, this.getModel().properties) : parameter;
             const item = yield this.getModel().getItem(value);
-            item.merge(parameter);
+            item.merge(param);
             try {
                 item.save();
             }

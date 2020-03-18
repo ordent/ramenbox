@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const NotFoundException_1 = require("../Exception/NotFoundException");
+const RamenTransformerGenerator_1 = require("../Transformer/RamenTransformerGenerator");
 // import DataSerializer from 'adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer'
 const DataSerializer = require('adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer');
 class RamenResponse {
@@ -57,12 +58,13 @@ class RamenResponse {
             return yield this.getManager().include(relations).meta(this.getMeta()).item(item, this.getTransformers());
         });
     }
-    rawItem(item) {
+    rawItem(item, transformer = null) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!item) {
                 throw new NotFoundException_1.NotFoundException('item not found');
             }
-            return yield this.getManager().meta(this.getMeta()).item(item);
+            const t = transformer ? transformer : RamenTransformerGenerator_1.RamenTransformerFactory(item);
+            return yield this.getManager().meta(this.getMeta()).item(item, t);
         });
     }
     setStatus(status) {
@@ -77,9 +79,10 @@ class RamenResponse {
             return yield this.getManager().include(relations).paginate(items, this.getTransformers());
         });
     }
-    rawCollection(items) {
+    rawCollection(items, transformer = null) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.getManager().collection(items);
+            const t = transformer ? transformer : RamenTransformerGenerator_1.RamenTransformerFactory(items.pop());
+            return yield this.getManager().collection(items, t);
         });
     }
     setMeta(item) {

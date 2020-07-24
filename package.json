@@ -1,35 +1,35 @@
 {
-    "name": "@ordent/ramenbox",
-    "version": "2.0.17",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ordent/ramenbox.git"
-    },
-    "author": "dimassrio",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/ordent/ramenbox/issues"
-    },
-    "homepage": "https://github.com/ordent/ramenbox#readme",
-    "dependencies": {
-        "@adonisjs/fold": "^4.0.9",
-        "@adonisjs/generic-exceptions": "^3.0.1",
-        "@adonisjs/cors": "^1.0.7",
-        "@adonisjs/validator": "^5.0.6",
-        "@adonisjs/drive": "^1.0.4",
-        "adonis-bumblebee": "^2.1.0",
-        "adonis-lucid-filter": "^1.0.5",
-        "lodash": "^4.17.15",
-        "lodash-inflection": "^1.5.0",
-        "@ordent/adonis-gcp": "0.0.2",
-        "is-base64": "^1.1.0",
-        "mime-types": "^2.1.26",
-        "shortid": "^2.2.15",
-        "@adonisjs/bodyparser": "^2.0.5"
-    },
-    "description": ""
+  "name": "@ordent/ramenbox",
+  "version": "2.0.17-canary",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ordent/ramenbox.git"
+  },
+  "author": "dimassrio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ordent/ramenbox/issues"
+  },
+  "homepage": "https://github.com/ordent/ramenbox#readme",
+  "dependencies": {
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/generic-exceptions": "^3.0.1",
+    "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/validator": "^5.0.6",
+    "@adonisjs/drive": "^1.0.4",
+    "adonis-bumblebee": "^2.1.0",
+    "adonis-lucid-filter": "^1.0.5",
+    "lodash": "^4.17.15",
+    "lodash-inflection": "^1.5.0",
+    "@ordent/adonis-gcp": "0.0.2",
+    "is-base64": "^1.1.0",
+    "mime-types": "^2.1.26",
+    "shortid": "^2.2.15",
+    "@adonisjs/bodyparser": "^2.0.5"
+  },
+  "description": ""
 }

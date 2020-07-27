@@ -81,6 +81,12 @@ class RamenController {
       return data;
     });
   }
+  delete({ request, response, transform }) {
+    this.getServices().getResponse().setResponse(response);
+    this.getServices().getResponse().setManager(transform);
+    this.getServices().deleteItem(request);
+  }
+  // For Route.resource it using destroy for delete protocol
   destroy({ request, response, transform }) {
     this.getServices().getResponse().setResponse(response);
     this.getServices().getResponse().setManager(transform);

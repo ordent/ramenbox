@@ -171,9 +171,9 @@ class RamenServices {
       for (const key in items) {
         let service = this.resolveServices(items[key]);
         // service = service ? new service() : service
-        this.properties[key] = service
-          ? yield service.assign(items[key])
-          : items[key];
+        this.properties[key] = !Object.keys(service).length
+          ? items[key]
+          : yield service.assign(items[key]);
       }
       return this.properties;
     });

@@ -81,7 +81,7 @@ class RamenController {
       return data;
     });
   }
-  delete({ request, response, transform }) {
+  destroy({ request, response, transform }) {
     this.getServices().getResponse().setResponse(response);
     this.getServices().getResponse().setManager(transform);
     this.getServices().deleteItem(request);

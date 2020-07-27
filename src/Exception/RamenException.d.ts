@@ -23,4 +23,4 @@ export declare class RamenException extends GE.LogicalException {
     constructor(item: any);
     wrapper(response: any, status: number, message: any, stack?: Array<Object>, code?: string): void;
 }
-export {};
+export { };

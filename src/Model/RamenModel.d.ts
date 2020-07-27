@@ -12,4 +12,4 @@ export declare class RamenModel extends Model {
     static get getAvailableInclude(): Array<string>;
     static get getDefaultInclude(): Array<string>;
 }
-export {};
+export { };

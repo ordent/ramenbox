@@ -139,7 +139,7 @@ class RamenRepository {
   }
   deleteItem(id) {
     return __awaiter(this, void 0, void 0, function* () {
-      const item = yield this.getModel().getItem(id);
+      const item = yield this.getItem(id);
       yield item.delete();
       throw new Exception_1.NoPayloadException("delete successful");
     });

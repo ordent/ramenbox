@@ -1,6 +1,6 @@
 {
-  "name": "@ordent/ramenbox",
-  "version": "2.0.17-canary",
+  "name": "@ordentco/ramenbox",
+  "version": "2.0.17-dev",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

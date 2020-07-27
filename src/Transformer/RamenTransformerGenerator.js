@@ -87,7 +87,7 @@ exports.RamenTransformerGenerator = (m, n = []) => {
       return Object.keys(element).pop();
     });
     relations.forEach((element) => {
-      const model = lodash_1.capitalize(element);
+      const model = lodash_1.upperFirst(element);
       // git commit note: remove pluralize
       result.prototype[`include${model}`] = function transforming(item) {
         let type = "item";

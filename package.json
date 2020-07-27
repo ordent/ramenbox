@@ -1,6 +1,6 @@
 {
   "name": "@ordentco/ramenbox",
-  "version": "2.0.17-dev",
+  "version": "2.1.17-canary-01",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,5 +31,8 @@
     "shortid": "^2.2.15",
     "@adonisjs/bodyparser": "^2.0.5"
   },
-  "description": ""
+  "description": "```` javascript\r const providers = [\r         '@adonisjs/framework/providers/AppProvider',\r         '@adonisjs/auth/providers/AuthProvider',\r         '@adonisjs/bodyparser/providers/BodyParserProvider',\r         '@adonisjs/drive/providers/DriveProvider',\r         'adonis-drive-google/providers/DriveProvider',\r         '@adonisjs/cors/providers/CorsProvider',\r         '@adonisjs/lucid/providers/LucidProvider',\r         'adonis-bumblebee/providers/BumblebeeProvider',\r         '@adonisjs/validator/providers/ValidatorProvider',\r         'adonis-lucid-filter/providers/LucidFilterProvider',\r         '@ordent/adonis-gcp/providers/DriveProvider'\r     ]\r ````",
+  "keywords": [
+    "dev"
+  ]
 }

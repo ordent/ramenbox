@@ -82,13 +82,16 @@ class RamenController {
     });
   }
   delete({ request, response, transform }) {
-    this.getServices().getResponse().setResponse(response);
-    this.getServices().getResponse().setManager(transform);
-    this.getServices().deleteItem(request.params.id);
+    return __awaiter(this, void 0, void 0, function* () {
+      this.getServices().getResponse().setResponse(response);
+      this.getServices().getResponse().setManager(transform);
+      const data = this.getServices().deleteItem(request.params.id);
+      return data;
+    });
   }
   // Note: For Route.resource it using destroy for delete protocol
   destroy({ request, response, transform }) {
-    this.delete({ request, response, transform });
+    return this.delete({ request, response, transform });
   }
 }
 exports.RamenController = RamenController;

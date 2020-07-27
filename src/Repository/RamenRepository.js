@@ -137,12 +137,15 @@ class RamenRepository {
       return item;
     });
   }
-  deleteItem(id) {
-    return __awaiter(this, void 0, void 0, function* () {
-      const item = yield this.getItem(id);
-      yield item.delete();
-      throw new Exception_1.NoPayloadException("delete successful");
-    });
+  async deleteItem(id) {
+    const item = await this.getModel().find(id);
+
+    if (item) {
+      await item.delete();
+      return item;
+    }
+
+    throw new Exception_1.NotFoundException("item not found");
   }
 }
 exports.RamenRepository = RamenRepository;

@@ -19,7 +19,9 @@ exports.capitalFirst = (s) => {
 exports.requestProperties = (request, properties) => {
   const result = {};
   properties.forEach((element) => {
-    result[element] = request[element];
+    if (request[element] !== undefined) {
+      result[element] = request[element];
+    }
   });
   return result;
 };

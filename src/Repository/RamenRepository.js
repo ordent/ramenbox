@@ -119,12 +119,12 @@ class RamenRepository {
       return result;
     });
   }
-  putItem(value, parameter) {
+  async putItem(value, parameter) {
     return __awaiter(this, void 0, void 0, function* () {
       const param = this.getModel().properties
         ? Utilities_1.requestProperties(parameter, this.getModel().properties)
         : parameter;
-      const item = yield this.getModel().getItem(value);
+      const item = yield this.getItem(value);
       item.merge(param);
       try {
         item.save();

@@ -11,7 +11,8 @@ exports.UnauthorizedException = UnauthorizedException_1.UnauthorizedException;
 var UndefinedException_1 = require("./UndefinedException");
 exports.UndefinedException = UndefinedException_1.UndefinedException;
 var UnprocessableEntityException_1 = require("./UnprocessableEntityException");
-exports.UnprocessableEntityException = UnprocessableEntityException_1.UnprocessableEntityException;
+exports.UnprocessableEntityException =
+  UnprocessableEntityException_1.UnprocessableEntityException;
 var NoPayloadException_1 = require("./NoPayloadException");
 exports.NoPayloadException = NoPayloadException_1.NoPayloadException;
 var RamenException_1 = require("./RamenException");

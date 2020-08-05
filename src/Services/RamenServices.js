@@ -161,8 +161,8 @@ class RamenServices {
     }
     // after getting value in configurations, resolve services based on services array
     this.services.forEach((element) => {
-      result = element.name === type ? element : null;
-    });
+      result =  element.constructor.name === type ? element : null;
+		});
     return result;
   }
   fillProperties(items) {
@@ -171,9 +171,10 @@ class RamenServices {
       for (const key in items) {
         let service = this.resolveServices(items[key]);
         // service = service ? new service() : service
-        this.properties[key] = !Object.keys(service).length
-          ? items[key]
-          : yield service.assign(items[key]);
+        // this.properties[key] = !Object.keys(service).length
+        //   ? items[key]
+				//   : yield service.assign(items[key]);
+				this.properties[key] = service ? yield service.assign(items[key]) : items[key];
       }
       return this.properties;
     });

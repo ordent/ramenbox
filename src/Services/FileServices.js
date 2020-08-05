@@ -39,25 +39,89 @@ const shortid_1 = require("shortid");
 const mime_types_1 = require("mime-types");
 const Drive = use("Drive");
 class FileServices extends SobaServices_1.SobaServices {
-  assign(item) {
+  // assign(item) {
+  //   return __awaiter(this, void 0, void 0, function* () {
+  //     let name = shortid_1.generate();
+  //     if (typeof item === "object") {
+  //       name = `${Buffer.from(item.tmpPath)
+  //         .toString("base64")
+  //         .replace("=", "A")}.${mime_types_1.extension(
+  //         mime_types_1.lookup(item.clientName)
+  //       )}`;
+  //     }
+  //     try {
+  //       yield Drive.put(name, item);
+  //       return yield Drive.getUrl(name);
+  //     } catch (e) {
+  //       throw new UndefinedException_1.UndefinedException(
+  //         "File Services have a problem"
+  //       );
+  //     }
+  //   });
+	// }
+	assign(item) {
     return __awaiter(this, void 0, void 0, function* () {
-      let name = shortid_1.generate();
-      if (typeof item === "object") {
-        name = `${Buffer.from(item.tmpPath)
-          .toString("base64")
-          .replace("=", "A")}.${mime_types_1.extension(
-          mime_types_1.lookup(item.clientName)
-        )}`;
-      }
       try {
-        yield Drive.put(name, item);
-        return yield Drive.getUrl(name);
+				const chunks = [];
+				const fileStream = fs.createReadStream(item.tmpPath);
+				let fileBuffer;
+				const result = new Promise((resolve, reject) => {
+					let value = '';
+					fileStream.once('error', err => {
+							// console.log(err);
+							reject(err);
+					});
+					fileStream.on('data', chunk => {
+							chunks.push(chunk);
+					});
+					fileStream.once('end', () => __awaiter(this, void 0, void 0, function* () {
+							fileBuffer = Buffer.concat(chunks);
+							let name = shortid_1.generate();
+							name = `${Buffer.from(item.tmpPath)
+									.toString('base64')
+									.replace('=', 'A')}.${mime_types_1.extension(mime_types_1.lookup(item.clientName))}`;
+							try {
+									// console.log(item.stream.read())
+									yield Drive.put(name, fileBuffer);
+									if (Drive._config.default === 'local') {
+										value = yield Drive.disk().getStream(name).path;
+									} else if (Drive._config.default === 'S3' || Drive._config.default === 'spaces' ) {
+										value = yield Drive.disk().getUrl(name);
+									}
+							}
+							catch (e) {
+									// console.log(e);
+									throw new UndefinedException_1.UndefinedException('File Services have a problem');
+							}
+							resolve(value);
+					}));
+			});
+				return result;
       } catch (e) {
         throw new UndefinedException_1.UndefinedException(
           "File Services have a problem"
         );
       }
     });
-  }
+	}
+	resolver(item) {
+		if (!item) {
+				return false;
+		}
+		if (typeof item === 'object' && !Array.isArray(item)) {
+				return true;
+		}
+		if (typeof item === 'string' && is_base64_1.isBase64(item) && item.includes('data:image')) {
+				return true;
+		}
+		if (Array.isArray(item)) {
+				const i = item.pop();
+				if ((typeof i === 'object' && !Array.isArray(i)) ||
+						(typeof i === 'string' && is_base64_1.isBase64(i) && i.includes('data:image'))) {
+						return true;
+				}
+		}
+		return false;
+	}
 }
-exports.FileServices = FileServices;
+

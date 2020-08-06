@@ -38,6 +38,7 @@ const UndefinedException_1 = require("../Exception/UndefinedException");
 const shortid_1 = require("shortid");
 const mime_types_1 = require("mime-types");
 const Drive = use("Drive");
+const fs = use("fs")
 class FileServices extends SobaServices_1.SobaServices {
   // assign(item) {
   //   return __awaiter(this, void 0, void 0, function* () {
@@ -50,7 +51,7 @@ class FileServices extends SobaServices_1.SobaServices {
   //       )}`;
   //     }
   //     try {
-  //       yield Drive.put(name, item);
+	//       yield Drive.put(name, item);
   //       return yield Drive.getUrl(name);
   //     } catch (e) {
   //       throw new UndefinedException_1.UndefinedException(
@@ -83,11 +84,7 @@ class FileServices extends SobaServices_1.SobaServices {
 							try {
 									// console.log(item.stream.read())
 									yield Drive.put(name, fileBuffer);
-									if (Drive._config.default === 'local') {
-										value = yield Drive.disk().getStream(name).path;
-									} else if (Drive._config.default === 'S3' || Drive._config.default === 'spaces' ) {
-										value = yield Drive.disk().getUrl(name);
-									}
+									value = yield Drive.disk().getStream(name).path;
 							}
 							catch (e) {
 									// console.log(e);
@@ -105,23 +102,23 @@ class FileServices extends SobaServices_1.SobaServices {
     });
 	}
 	resolver(item) {
-		if (!item) {
-				return false;
-		}
-		if (typeof item === 'object' && !Array.isArray(item)) {
-				return true;
-		}
-		if (typeof item === 'string' && is_base64_1.isBase64(item) && item.includes('data:image')) {
-				return true;
-		}
-		if (Array.isArray(item)) {
-				const i = item.pop();
-				if ((typeof i === 'object' && !Array.isArray(i)) ||
-						(typeof i === 'string' && is_base64_1.isBase64(i) && i.includes('data:image'))) {
-						return true;
-				}
-		}
-		return false;
-	}
+        if (!item) {
+            return false;
+        }
+        if (typeof item === 'object' && !Array.isArray(item)) {
+            return true;
+        }
+        if (typeof item === 'string' && is_base64_1.isBase64(item) && item.includes('data:image')) {
+            return true;
+        }
+        if (Array.isArray(item)) {
+            const i = item.pop();
+            if ((typeof i === 'object' && !Array.isArray(i)) ||
+                (typeof i === 'string' && is_base64_1.isBase64(i) && i.includes('data:image'))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
-
+exports.FileServices = FileServices;

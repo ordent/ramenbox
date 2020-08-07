@@ -39,7 +39,7 @@ const shortid_1 = require("shortid");
 const mime_types_1 = require("mime-types");
 const Drive = use("Drive");
 const fs = use("fs");
-const fileType = require("file-type");
+const base64Mime = require("base64mime");
 class FileServices extends SobaServices_1.SobaServices {
   assign(item) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -52,14 +52,14 @@ class FileServices extends SobaServices_1.SobaServices {
   }
 
   stringBase64(item) {
-    return __awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, async function* () {
       let name = shortid_1.generate();
 
-      name = `${item.replace("=", "A")}.${mime_types_1.extension(
-        mime_types_1.lookup(item.clientName)
-      )}`;
-
-      console.log(name);
+      // name = `${item.replace("=", "A")}.${mime_types_1.extension(
+      //   mime_types_1.lookup(item.clientName)
+      // )}`;
+      const mime = base64Mime(item);
+      console.log(mime);
 
       // try {
       //   yield Drive.put(name, item);

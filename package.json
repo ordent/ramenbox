@@ -25,7 +25,7 @@
     "@ordent/adonis-gcp": "0.0.2",
     "adonis-bumblebee": "^2.1.0",
     "adonis-lucid-filter": "^1.0.5",
-    "file-type": "^14.7.0",
+    "base64mime": "0.0.3",
     "is-base64": "^1.1.0",
     "lodash": "^4.17.15",
     "lodash-inflection": "^1.5.0",

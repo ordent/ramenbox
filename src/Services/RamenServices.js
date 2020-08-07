@@ -55,8 +55,7 @@ class RamenServices {
         return (
           typeof item === "object" ||
           (typeof item === "string" &&
-            is_base64_1(item, { allowEmpty: false, allowMime: true }) &&
-            item.includes("data:image"))
+            is_base64_1(item, { allowEmpty: false, allowMime: true }))
         );
       },
     };
@@ -161,8 +160,8 @@ class RamenServices {
     }
     // after getting value in configurations, resolve services based on services array
     this.services.forEach((element) => {
-      result =  element.constructor.name === type ? element : null;
-		});
+      result = element.constructor.name === type ? element : null;
+    });
     return result;
   }
   fillProperties(items) {
@@ -173,8 +172,10 @@ class RamenServices {
         // service = service ? new service() : service
         // this.properties[key] = !Object.keys(service).length
         //   ? items[key]
-				//   : yield service.assign(items[key]);
-				this.properties[key] = service ? yield service.assign(items[key]) : items[key];
+        //   : yield service.assign(items[key]);
+        this.properties[key] = service
+          ? yield service.assign(items[key])
+          : items[key];
       }
       return this.properties;
     });

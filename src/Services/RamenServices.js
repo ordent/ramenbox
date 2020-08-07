@@ -55,7 +55,7 @@ class RamenServices {
         return (
           typeof item === "object" ||
           (typeof item === "string" &&
-            is_base64_1(item, { allowEmpty: false, allowMime: true }))
+            is_base64_1(item, { allowEmpty: false, mimeRequired: true }))
         );
       },
     };

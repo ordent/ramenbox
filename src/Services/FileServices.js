@@ -39,6 +39,7 @@ const shortid_1 = require("shortid");
 const mime_types_1 = require("mime-types");
 const Drive = use("Drive");
 const fs = use("fs");
+const fileType = require("file-type");
 class FileServices extends SobaServices_1.SobaServices {
   assign(item) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -58,7 +59,7 @@ class FileServices extends SobaServices_1.SobaServices {
         mime_types_1.lookup(item.clientName)
       )}`;
 
-      console.log(item);
+      console.log(name);
 
       // try {
       //   yield Drive.put(name, item);

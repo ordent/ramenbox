@@ -16,20 +16,21 @@
   },
   "homepage": "https://github.com/ordent/ramenbox#readme",
   "dependencies": {
+    "@adonisjs/bodyparser": "^2.0.5",
+    "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/drive": "^1.0.4",
     "@adonisjs/fold": "^4.0.9",
     "@adonisjs/generic-exceptions": "^3.0.1",
-    "@adonisjs/cors": "^1.0.7",
     "@adonisjs/validator": "^5.0.6",
-    "@adonisjs/drive": "^1.0.4",
+    "@ordent/adonis-gcp": "0.0.2",
     "adonis-bumblebee": "^2.1.0",
     "adonis-lucid-filter": "^1.0.5",
+    "file-type": "^14.7.0",
+    "is-base64": "^1.1.0",
     "lodash": "^4.17.15",
     "lodash-inflection": "^1.5.0",
-    "@ordent/adonis-gcp": "0.0.2",
-    "is-base64": "^1.1.0",
     "mime-types": "^2.1.26",
-    "shortid": "^2.2.15",
-    "@adonisjs/bodyparser": "^2.0.5"
+    "shortid": "^2.2.15"
   },
   "description": "```` javascript\r const providers = [\r         '@adonisjs/framework/providers/AppProvider',\r         '@adonisjs/auth/providers/AuthProvider',\r         '@adonisjs/bodyparser/providers/BodyParserProvider',\r         '@adonisjs/drive/providers/DriveProvider',\r         'adonis-drive-google/providers/DriveProvider',\r         '@adonisjs/cors/providers/CorsProvider',\r         '@adonisjs/lucid/providers/LucidProvider',\r         'adonis-bumblebee/providers/BumblebeeProvider',\r         '@adonisjs/validator/providers/ValidatorProvider',\r         'adonis-lucid-filter/providers/LucidFilterProvider',\r         '@ordent/adonis-gcp/providers/DriveProvider'\r     ]\r ````",
   "keywords": [

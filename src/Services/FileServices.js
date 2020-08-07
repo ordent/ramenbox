@@ -44,31 +44,41 @@ class FileServices extends SobaServices_1.SobaServices {
   assign(item) {
     return __awaiter(this, void 0, void 0, function* () {
       if (typeof item === "object") {
-        yield this.file(item);
+        return yield this.file(item);
       } else if (typeof item === "string") {
-        yield this.stringBase64(item);
+        return yield this.stringBase64(item);
       }
     });
   }
 
   stringBase64(item) {
-    return __awaiter(this, void 0, void 0, async function* () {
+    return __awaiter(this, void 0, void 0, function* () {
       let name = shortid_1.generate();
-
-      // name = `${item.replace("=", "A")}.${mime_types_1.extension(
-      //   mime_types_1.lookup(item.clientName)
-      // )}`;
       const mime = base64Mime(item);
-      console.log(mime);
+      name = `${name}.${mime_types_1.extension(mime)}`;
 
-      // try {
-      //   yield Drive.put(name, item);
-      //   return yield Drive.getUrl(name);
-      // } catch (e) {
-      //   throw new UndefinedException_1.UndefinedException(
-      //     "File Services have a problem"
-      //   );
-      // }
+      const base64File = item.split(";base64,").pop();
+
+      const file = new Buffer(base64File, "base64");
+      // this.urltoFile(item, name, mime)
+
+      try {
+        yield Drive.put(name, file);
+        let value = null;
+        if (Drive._config.default === "local") {
+          value = yield Drive.disk().getStream(name).path;
+        } else if (
+          Drive._config.default === "s3" ||
+          Drive._config.default === "spaces"
+        ) {
+          value = yield Drive.disk().getUrl(name);
+        }
+        return value.substring(value.lastIndexOf("/tmp"));
+      } catch (e) {
+        throw new UndefinedException_1.UndefinedException(
+          "File Services base64 have a problem"
+        );
+      }
     });
   }
 
@@ -81,7 +91,6 @@ class FileServices extends SobaServices_1.SobaServices {
         const result = new Promise((resolve, reject) => {
           let value = "";
           fileStream.once("error", (err) => {
-            // console.log(err);
             reject(err);
           });
           fileStream.on("data", (chunk) => {
@@ -97,11 +106,17 @@ class FileServices extends SobaServices_1.SobaServices {
                 mime_types_1.lookup(item.clientName)
               )}`;
               try {
-                // console.log(item.stream.read())
                 yield Drive.put(name, fileBuffer);
-                value = yield Drive.disk().getStream(name).path;
+                if (Drive._config.default === "local") {
+                  const path = yield Drive.disk().getStream(name).path;
+                  value = path.substring(path.lastIndexOf("/tmp"));
+                } else if (
+                  Drive._config.default === "s3" ||
+                  Drive._config.default === "spaces"
+                ) {
+                  value = yield Drive.disk().getUrl(name);
+                }
               } catch (e) {
-                // console.log(e);
                 throw new UndefinedException_1.UndefinedException(
                   "File Services have a problem"
                 );
@@ -118,6 +133,7 @@ class FileServices extends SobaServices_1.SobaServices {
       }
     });
   }
+
   resolver(item) {
     if (!item) {
       return false;

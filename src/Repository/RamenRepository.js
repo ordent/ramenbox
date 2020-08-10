@@ -33,6 +33,7 @@ var __awaiter =
     });
   };
 Object.defineProperty(exports, "__esModule", { value: true });
+const Hash = use("Hash");
 const Exception_1 = require("../Exception");
 const RamenModel_1 = require("../Model/RamenModel");
 const Utilities_1 = require("../Utilities");
@@ -119,12 +120,38 @@ class RamenRepository {
       return result;
     });
   }
-  async putItem(value, parameter) {
+  putItem(value, parameter) {
     return __awaiter(this, void 0, void 0, function* () {
       const param = this.getModel().properties
         ? Utilities_1.requestProperties(parameter, this.getModel().properties)
         : parameter;
       const item = yield this.getItem(value);
+
+      if ("password" in parameter) {
+        if ("oldPassword" in parameter) {
+          if (parameter.password === parameter.oldPassword)
+            throw new Exception_1.UnprocessableEntityException({
+              message: "old password and new password cant be the same !",
+              stack: null,
+            });
+          const verify = yield Hash.verify(
+            parameter.oldPassword,
+            item.password
+          );
+          if (!verify) {
+            throw new Exception_1.UnprocessableEntityException({
+              message: "old password incorrect !",
+              stack: null,
+            });
+          }
+        } else {
+          throw new Exception_1.UnprocessableEntityException({
+            message: "need oldPassword value",
+            stack: null,
+          });
+        }
+      }
+
       item.merge(param);
       try {
         item.save();

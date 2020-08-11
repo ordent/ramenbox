@@ -67,10 +67,7 @@ class FileServices extends SobaServices_1.SobaServices {
         let value = null;
         if (Drive._config.default === "local") {
           value = yield Drive.disk().getStream(name).path;
-        } else if (
-          Drive._config.default === "s3" ||
-          Drive._config.default === "spaces"
-        ) {
+        } else {
           value = yield Drive.disk().getUrl(name);
         }
         return value.substring(value.lastIndexOf("/tmp"));
@@ -110,10 +107,7 @@ class FileServices extends SobaServices_1.SobaServices {
                 if (Drive._config.default === "local") {
                   const path = yield Drive.disk().getStream(name).path;
                   value = path.substring(path.lastIndexOf("/tmp"));
-                } else if (
-                  Drive._config.default === "s3" ||
-                  Drive._config.default === "spaces"
-                ) {
+                } else {
                   value = yield Drive.disk().getUrl(name);
                 }
               } catch (e) {

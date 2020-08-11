@@ -23,6 +23,8 @@
     "@adonisjs/generic-exceptions": "^3.0.1",
     "@adonisjs/validator": "^5.0.6",
     "@ordent/adonis-gcp": "0.0.2",
+    "@slynova/flydrive": "^1.0.2",
+    "@slynova/flydrive-gcs": "^1.0.2",
     "adonis-bumblebee": "^2.1.0",
     "adonis-lucid-filter": "^1.0.5",
     "base64mime": "0.0.3",

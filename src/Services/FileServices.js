@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SobaServices_1 = require("./SobaServices");
 const UndefinedException_1 = require("../Exception/UndefinedException");
 const shortid_1 = require("shortid");
+const uuid = require("uuid");
 const mime_types_1 = require("mime-types");
 const Drive = use("Floppy");
 const fs = use("fs");
@@ -53,10 +54,10 @@ class FileServices extends SobaServices_1.SobaServices {
 
   stringBase64(item) {
     return __awaiter(this, void 0, void 0, function* () {
-      let name = shortid_1.generate();
+      let name = uuid.v4();
       const mime = base64Mime(item);
       name = `${name}.${mime_types_1.extension(mime)}`;
-
+      console.log(name);
       const base64File = item.split(";base64,").pop();
 
       const file = new Buffer(base64File, "base64");

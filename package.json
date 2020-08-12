@@ -30,7 +30,8 @@
     "lodash": "^4.17.15",
     "lodash-inflection": "^1.5.0",
     "mime-types": "^2.1.26",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "uuid": "^8.3.0"
   },
   "description": "```` javascript\r const providers = [\r         '@adonisjs/framework/providers/AppProvider',\r         '@adonisjs/auth/providers/AuthProvider',\r         '@adonisjs/bodyparser/providers/BodyParserProvider',\r         '@adonisjs/drive/providers/DriveProvider',\r         'adonis-drive-google/providers/DriveProvider',\r         '@adonisjs/cors/providers/CorsProvider',\r         '@adonisjs/lucid/providers/LucidProvider',\r         'adonis-bumblebee/providers/BumblebeeProvider',\r         '@adonisjs/validator/providers/ValidatorProvider',\r         'adonis-lucid-filter/providers/LucidFilterProvider',\r         '@ordent/adonis-gcp/providers/DriveProvider'\r     ]\r ````",
   "keywords": [

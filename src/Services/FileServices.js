@@ -65,13 +65,14 @@ class FileServices extends SobaServices_1.SobaServices {
       try {
         yield Drive.put(name, file);
         let value = null;
-        if (Drive._config.default === "local") {
-          value = yield Drive.disk().getStream(name).path;
+        if (Drive.constructor.name === "LocalFileSystemStorage") {
+          value = yield Drive.getStream(name).path;
+          return value.substring(value.lastIndexOf("/tmp"));
         } else {
-          value = yield Drive.disk().getUrl(name);
+          return yield Drive.getUrl(name);
         }
-        return value.substring(value.lastIndexOf("/tmp"));
       } catch (e) {
+        console.error(e);
         throw new UndefinedException_1.UndefinedException(
           "File Services base64 have a problem"
         );
@@ -104,13 +105,14 @@ class FileServices extends SobaServices_1.SobaServices {
               )}`;
               try {
                 yield Drive.put(name, fileBuffer);
-                if (Drive._config.default === "local") {
-                  const path = yield Drive.disk().getStream(name).path;
+                if (Drive.constructor.name === "LocalFileSystemStorage") {
+                  const path = yield Drive.getStream(name).path;
                   value = path.substring(path.lastIndexOf("/tmp"));
                 } else {
-                  value = yield Drive.disk().getUrl(name);
+                  value = yield Drive.getUrl(name);
                 }
               } catch (e) {
+                console.error(e);
                 throw new UndefinedException_1.UndefinedException(
                   "File Services have a problem"
                 );

@@ -35,7 +35,6 @@ var __awaiter =
 Object.defineProperty(exports, "__esModule", { value: true });
 const SobaServices_1 = require("./SobaServices");
 const UndefinedException_1 = require("../Exception/UndefinedException");
-const shortid_1 = require("shortid");
 const uuid = require("uuid");
 const mime_types_1 = require("mime-types");
 const Drive = use("Floppy");
@@ -98,10 +97,8 @@ class FileServices extends SobaServices_1.SobaServices {
           fileStream.once("end", () =>
             __awaiter(this, void 0, void 0, function* () {
               fileBuffer = Buffer.concat(chunks);
-              let name = shortid_1.generate();
-              name = `${Buffer.from(item.tmpPath)
-                .toString("base64")
-                .replace("=", "A")}.${mime_types_1.extension(
+              let name = uuid.v4();
+              name = `${name}.${mime_types_1.extension(
                 mime_types_1.lookup(item.clientName)
               )}`;
               try {

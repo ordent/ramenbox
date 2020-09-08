@@ -44,7 +44,7 @@ const base64Mime = require("base64mime");
 class FileServices extends SobaServices_1.SobaServices {
   assign(item) {
     return __awaiter(this, void 0, void 0, function* () {
-      if (typeof item === "object") {
+      if (typeof item === "object" && item.constructor.name === 'File') {
         return yield this.file(item);
       } else if (typeof item === "string") {
         return yield this.stringBase64(item);

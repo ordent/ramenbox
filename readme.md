@@ -1,21 +1,29 @@
-## Installation
+# Adonis Ramenbox
 
-### Setup
-```` javascript
+### Installation
+
+Adonis Ramenbox requires [Adonisjs](https://adonisjs.com/) v4 to run.
+
+Install the dependencies
+
+```sh
+$ npm i adonis-bumblebee adonis-lucid-filter --save
+$ adonis install @adonisjs/validator
+$ adonis install @adonisjs/drive
+```
+
+add provider to `start/app.js`
+
+```javascript
 const providers = [
-        '@adonisjs/framework/providers/AppProvider',
-        '@adonisjs/auth/providers/AuthProvider',
-        '@adonisjs/bodyparser/providers/BodyParserProvider',
-        '@adonisjs/drive/providers/DriveProvider',
-        'adonis-drive-google/providers/DriveProvider',
-        '@adonisjs/cors/providers/CorsProvider',
-        '@adonisjs/lucid/providers/LucidProvider',
-        'adonis-bumblebee/providers/BumblebeeProvider',
-        '@adonisjs/validator/providers/ValidatorProvider',
-        'adonis-lucid-filter/providers/LucidFilterProvider',
-        '@ordent/adonis-gcp/providers/DriveProvider'
-    ]
-````
+  ...
+  '@adonisjs/validator/providers/ValidatorProvider',
+  '@adonisjs/drive/providers/DriveProvider',
+  'adonis-bumblebee/providers/BumblebeeProvider',
+  'adonis-lucid-filter/providers/LucidFilterProvider',
+  ...
+]
+```
 
 ### Controller
 ```` javascript

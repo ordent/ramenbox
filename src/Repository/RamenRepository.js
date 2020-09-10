@@ -78,23 +78,25 @@ class RamenRepository {
       return result;
     });
   }
-  postItem(parameter) {
-    return __awaiter(this, void 0, void 0, function* () {
-      let item = null;
-      const param = this.getModel().properties
-        ? Utilities_1.requestProperties(parameter, this.getModel().properties)
-        : parameter;
-      try {
-        item = yield this.getModel().create(param);
-      } catch (e) {
-        throw new Exception_1.UnprocessableEntityException({
-          message: e.message,
-          stack: e.stack,
-        });
-      }
-      return item;
-    });
+
+  async postItem(parameter) {
+
+    let item = null;
+    const param = this.getModel().properties
+      ? Utilities_1.requestProperties(parameter, this.getModel().properties)
+      : parameter;
+    try {
+      item = await this.getModel().create(param);
+      await item.reload()
+    } catch (e) {
+      throw new Exception_1.UnprocessableEntityException({
+        message: e.message,
+        stack: e.stack,
+      });
+    }
+    return item;
   }
+  
   postCollection(parameters) {
     return __awaiter(this, void 0, void 0, function* () {
       const result = {

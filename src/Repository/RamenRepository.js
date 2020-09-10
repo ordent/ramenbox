@@ -121,7 +121,7 @@ class RamenRepository {
     });
   }
   putItem(value, parameter) {
-    return __awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, async function* () {
       const param = this.getModel().properties
         ? Utilities_1.requestProperties(parameter, this.getModel().properties)
         : parameter;
@@ -154,7 +154,7 @@ class RamenRepository {
 
       item.merge(param);
       try {
-        item.save();
+        await item.save();
       } catch (e) {
         throw new Exception_1.UnprocessableEntityException({
           message: e.message,

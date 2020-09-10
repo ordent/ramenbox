@@ -6,8 +6,8 @@ var __awaiter =
       return value instanceof P
         ? value
         : new P(function (resolve) {
-            resolve(value);
-          });
+          resolve(value);
+        });
     }
     return new (P || (P = Promise))(function (resolve, reject) {
       function fulfilled(value) {
@@ -56,9 +56,9 @@ class RamenRepository {
       const result = Number.isInteger(parseInt(value))
         ? yield this.getModel().find(parseInt(value))
         : yield this.getModel()
-            .query()
-            .where(this.getModel().slug, value)
-            .first();
+          .query()
+          .where(this.getModel().slug, value)
+          .first();
       if (!result) {
         throw new Exception_1.NotFoundException("item not found");
       }
@@ -78,23 +78,25 @@ class RamenRepository {
       return result;
     });
   }
-  postItem(parameter) {
-    return __awaiter(this, void 0, void 0, function* () {
-      let item = null;
-      const param = this.getModel().properties
-        ? Utilities_1.requestProperties(parameter, this.getModel().properties)
-        : parameter;
-      try {
-        item = yield this.getModel().create(param);
-      } catch (e) {
-        throw new Exception_1.UnprocessableEntityException({
-          message: e.message,
-          stack: e.stack,
-        });
-      }
-      return item;
-    });
+
+  async postItem(parameter) {
+
+    let item = null;
+    const param = this.getModel().properties
+      ? Utilities_1.requestProperties(parameter, this.getModel().properties)
+      : parameter;
+    try {
+      item = await this.getModel().create(param);
+      await item.reload()
+    } catch (e) {
+      throw new Exception_1.UnprocessableEntityException({
+        message: e.message,
+        stack: e.stack,
+      });
+    }
+    return item;
   }
+  
   postCollection(parameters) {
     return __awaiter(this, void 0, void 0, function* () {
       const result = {
@@ -120,49 +122,50 @@ class RamenRepository {
       return result;
     });
   }
-  putItem(value, parameter) {
-    return __awaiter(this, void 0, void 0, function* () {
-      const param = this.getModel().properties
-        ? Utilities_1.requestProperties(parameter, this.getModel().properties)
-        : parameter;
-      const item = yield this.getItem(value);
+  async putItem(value, parameter) {
 
-      if ("password" in parameter) {
-        if ("oldPassword" in parameter) {
-          if (parameter.password === parameter.oldPassword)
-            throw new Exception_1.UnprocessableEntityException({
-              message: "old password and new password cant be the same !",
-              stack: null,
-            });
-          const verify = yield Hash.verify(
-            parameter.oldPassword,
-            item.password
-          );
-          if (!verify) {
-            throw new Exception_1.UnprocessableEntityException({
-              message: "old password incorrect !",
-              stack: null,
-            });
-          }
-        } else {
+    const param = this.getModel().properties
+      ? Utilities_1.requestProperties(parameter, this.getModel().properties)
+      : parameter;
+    const item = await this.getItem(value);
+    if ("password" in parameter) {
+      if ("oldPassword" in parameter) {
+        if (parameter.password === parameter.oldPassword)
           throw new Exception_1.UnprocessableEntityException({
-            message: "need oldPassword value",
+            message: "old password and new password cant be the same !",
+            stack: null,
+          });
+        const verify = await Hash.verify(
+          parameter.oldPassword,
+          item.password
+        );
+        if (!verify) {
+          throw new Exception_1.UnprocessableEntityException({
+            message: "old password incorrect !",
             stack: null,
           });
         }
-      }
-
-      item.merge(param);
-      try {
-        item.save();
-      } catch (e) {
+      } else {
         throw new Exception_1.UnprocessableEntityException({
-          message: e.message,
-          stack: e.stack,
+          message: "need oldPassword value",
+          stack: null,
         });
       }
-      return item;
-    });
+    }
+
+    await item.merge(param);
+
+    try {
+      await item.save();
+      await item.reload();
+    } catch (e) {
+      throw new Exception_1.UnprocessableEntityException({
+        message: e.message,
+        stack: e.stack,
+      });
+    }
+
+    return item;
   }
   async deleteItem(id) {
     const item = await this.getModel().find(id);

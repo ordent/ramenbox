@@ -38,7 +38,7 @@ const UndefinedException_1 = require("../Exception/UndefinedException");
 const shortid_1 = require("shortid");
 const uuid = require("uuid");
 const mime_types_1 = require("mime-types");
-const Drive = require("floppy");
+const Drive = user("Floppy");
 const fs = use("fs");
 const base64Mime = require("base64mime");
 class FileServices extends SobaServices_1.SobaServices {

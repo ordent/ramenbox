@@ -156,7 +156,7 @@ class RamenRepository {
     await item.merge(param);
 
     try {
-      await item.save();
+      await item.update();
       await item.reload();
     } catch (e) {
       throw new Exception_1.UnprocessableEntityException({

@@ -6,8 +6,8 @@ var __awaiter =
       return value instanceof P
         ? value
         : new P(function (resolve) {
-            resolve(value);
-          });
+          resolve(value);
+        });
     }
     return new (P || (P = Promise))(function (resolve, reject) {
       function fulfilled(value) {
@@ -53,7 +53,7 @@ class RamenServices {
     this.configurations = {
       FileServices: function (item) {
         return (
-          typeof item === "object" ||
+          (typeof item === "object" && item.constructor.name === 'File') ||
           (typeof item === "string" &&
             is_base64_1(item, { allowEmpty: false, mimeRequired: true }))
         );
@@ -193,19 +193,19 @@ class RamenServices {
     });
   }
   getItemHook(position, ...arg) {
-    return __awaiter(this, void 0, void 0, function* () {});
+    return __awaiter(this, void 0, void 0, function* () { });
   }
   getCollectionHook(position, ...arg) {
-    return __awaiter(this, void 0, void 0, function* () {});
+    return __awaiter(this, void 0, void 0, function* () { });
   }
   postItemHook(position, ...arg) {
-    return __awaiter(this, void 0, void 0, function* () {});
+    return __awaiter(this, void 0, void 0, function* () { });
   }
   putItemHook(position, ...arg) {
-    return __awaiter(this, void 0, void 0, function* () {});
+    return __awaiter(this, void 0, void 0, function* () { });
   }
   deleteItemHook(position, ...arg) {
-    return __awaiter(this, void 0, void 0, function* () {});
+    return __awaiter(this, void 0, void 0, function* () { });
   }
   getItem(value, request) {
     return __awaiter(this, void 0, void 0, function* () {

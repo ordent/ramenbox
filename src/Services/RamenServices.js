@@ -274,8 +274,9 @@ class RamenServices {
   }
   deleteItem(value) {
     return __awaiter(this, void 0, void 0, function* () {
-      yield this.putItemHook("START", value);
+      yield this.deleteItemHook("START", value);
       const result = yield this.getRepository().deleteItem(value);
+      yield this.deleteItemHook("AFTER-PROCESS", value);
       return this.getResponse().setStatus(200).item(result, "");
     });
   }

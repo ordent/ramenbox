@@ -210,8 +210,8 @@ class RamenServices {
   getItem(value, request) {
     return __awaiter(this, void 0, void 0, function* () {
       let relations = request.input("with", "");
+      yield this.getItemHook("START", value, request.all(), relations);
       let body = Utilities_1.requestBody(request);
-      yield this.getItemHook("START", value, body, relations);
       body = yield this.sanitize(body, "get");
       yield this.getItemHook("AFTER-SANITIZE", value, body, relations);
       const validation = yield this.validate(body, "get");
@@ -224,8 +224,8 @@ class RamenServices {
   getCollection(request) {
     return __awaiter(this, void 0, void 0, function* () {
       const relations = request.input("with", "");
+      yield this.getCollectionHook("START", request.all(), relations);
       let body = Utilities_1.requestBody(request);
-      yield this.getCollectionHook("START", body, relations);
       body = yield this.sanitize(body, "get");
       yield this.getCollectionHook("AFTER-SANITIZE", body, relations);
       const validation = yield this.validate(body, "get");
@@ -238,8 +238,8 @@ class RamenServices {
   postItem(request) {
     return __awaiter(this, void 0, void 0, function* () {
       const relations = request.input("with", "");
+      yield this.postItemHook("START", request.all(), relations);
       let body = Utilities_1.requestBody(request);
-      yield this.postItemHook("START", body, relations);
       body = yield this.sanitize(body, "post");
       yield this.postItemHook("AFTER-SANITIZE", body, relations);
       const validation = yield this.validate(body, "post");
@@ -261,8 +261,8 @@ class RamenServices {
   putItem(value, request) {
     return __awaiter(this, void 0, void 0, function* () {
       const relations = request.input("with", "");
+      yield this.putItemHook("START", value, request.all(), relations);
       let body = Utilities_1.requestBody(request);
-      yield this.putItemHook("START", value, body, relations);
       body = yield this.sanitize(body, "put");
       yield this.putItemHook("AFTER-SANITIZE", value, body, relations);
       const validation = yield this.validate(body, "put");

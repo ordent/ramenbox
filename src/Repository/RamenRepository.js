@@ -96,7 +96,7 @@ class RamenRepository {
     }
     return item;
   }
-  
+
   postCollection(parameters) {
     return __awaiter(this, void 0, void 0, function* () {
       const result = {
@@ -122,50 +122,52 @@ class RamenRepository {
       return result;
     });
   }
-  async putItem(value, parameter) {
+  putItem(value, parameter) {
+    return __awaiter(this, void 0, void 0, function* () {
+      const param = this.getModel().properties
+        ? Utilities_1.requestProperties(parameter, this.getModel().properties)
+        : parameter;
+      const item = yield this.getItem(value);
 
-    const param = this.getModel().properties
-      ? Utilities_1.requestProperties(parameter, this.getModel().properties)
-      : parameter;
-    const item = await this.getItem(value);
-    if ("password" in parameter) {
-      if ("oldPassword" in parameter) {
-        if (parameter.password === parameter.oldPassword)
+      if ("password" in parameter) {
+        if ("oldPassword" in parameter) {
+          if (parameter.password === parameter.oldPassword)
+            throw new Exception_1.UnprocessableEntityException({
+              message: "old password and new password cant be the same !",
+              stack: null,
+            });
+          const verify = yield Hash.verify(
+            parameter.oldPassword,
+            item.password
+          );
+          if (!verify) {
+            throw new Exception_1.UnprocessableEntityException({
+              message: "old password incorrect !",
+              stack: null,
+            });
+          }
+        } else {
           throw new Exception_1.UnprocessableEntityException({
-            message: "old password and new password cant be the same !",
-            stack: null,
-          });
-        const verify = await Hash.verify(
-          parameter.oldPassword,
-          item.password
-        );
-        if (!verify) {
-          throw new Exception_1.UnprocessableEntityException({
-            message: "old password incorrect !",
+            message: "need oldPassword value",
             stack: null,
           });
         }
-      } else {
+      }
+
+      yield item.merge(param);
+
+      try {
+        yield item.save();
+        yield item.reload();
+      } catch (e) {
         throw new Exception_1.UnprocessableEntityException({
-          message: "need oldPassword value",
-          stack: null,
+          message: e.message,
+          stack: e.stack,
         });
       }
-    }
 
-    await item.merge(param);
-
-    try {
-      await item.save();
-      await item.reload();
-    } catch (e) {
-      throw new Exception_1.UnprocessableEntityException({
-        message: e.message,
-        stack: e.stack,
-      });
-    }
-
-    return item;
+      return item;
+    });
   }
   async deleteItem(id) {
     const item = await this.getModel().find(id);

@@ -12,8 +12,8 @@ exports.RamenFilterGenerator = (properties) => {
   };
   properties.forEach((element) => {
     result.prototype[lodash_1.camelCase(element)] = function (value) {
-      if (Array.isArray(value)) {
-        return this.whereIn(element, value);
+      if (/^\[+\w*/.test(value) && /\w*\]$/.test(value)) {
+        return this.whereIn(element,  JSON.parse(value));
       } else if (/^\%+\w*/.test(value)) {
         // LIKE
         return this.where(element, "LIKE", `%${value.replace(/^\%/, "")}%`);

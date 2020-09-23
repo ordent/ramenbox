@@ -7,7 +7,7 @@ Adonis Ramenbox requires [Adonisjs](https://adonisjs.com/) v4 to run.
 Install the dependencies
 
 ```sh
-$ npm i adonis-bumblebee adonis-lucid-filter --save
+$ npm i adonis-bumblebee adonis-lucid-filter @ordentco/adonis-drive --save
 $ adonis install @adonisjs/validator
 $ adonis install @adonisjs/drive
 ```
@@ -18,7 +18,7 @@ add provider to `start/app.js`
 const providers = [
   ...
   '@adonisjs/validator/providers/ValidatorProvider',
-  '@adonisjs/drive/providers/DriveProvider',
+  '@ordentco/adonis-drive/providers/DriveProvider'
   'adonis-bumblebee/providers/BumblebeeProvider',
   'adonis-lucid-filter/providers/LucidFilterProvider',
   ...

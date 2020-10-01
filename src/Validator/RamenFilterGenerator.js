@@ -32,7 +32,7 @@ exports.RamenFilterGenerator = (properties) => {
         return this.whereBetween(element, ">=", [start, end]);
       } else if (/^\!+\w*/.test(value)) {
         // NOT
-        return this.whereNot(element, ">=", value.replace(/^\!/, ""));
+        return this.whereNot(element, value.replace(/^\!/, ""));
       } else {
         // WHERE
         return this.where(element, value);

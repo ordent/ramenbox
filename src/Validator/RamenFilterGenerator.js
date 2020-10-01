@@ -17,14 +17,14 @@ exports.RamenFilterGenerator = (properties) => {
       } else if (/^\$+\w*/.test(value)) {
         // LIKE
         return this.where(element, "LIKE", `%${value.replace(/^\$/, "")}%`);
-      } else if (/^\>+\w*/.test(value)) {
-        return this.where(element, ">", value.replace(/^\>/, ""));
       } else if (/^\>=+\w*/.test(value)) {
         return this.where(element, ">=", value.replace(/^\>=/, ""));
-      } else if (/^\<+\w*/.test(value)) {
-        return this.where(element, "<", value.replace(/^\</, ""));
+      } else if (/^\>+\w*/.test(value)) {
+        return this.where(element, ">", value.replace(/^\>/, ""));
       } else if (/^\<=+\w*/.test(value)) {
         return this.where(element, "<=", value.replace(/^\<=/, ""));
+      } else if (/^\<+\w*/.test(value)) {
+        return this.where(element, "<", value.replace(/^\</, ""));
       } else if (/^\|+\w*/.test(value)) {
         // RANGE
         const start = value.match(/\w+(?=,)/);

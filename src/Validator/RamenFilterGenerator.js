@@ -29,7 +29,7 @@ exports.RamenFilterGenerator = (properties) => {
         // RANGE
         const start = value.match(/\w+(?=,)/);
         const end = value.match(/\w+(?=$)/);
-        return this.whereBetween(element, ">=", [start, end]);
+        return this.whereBetween(element, [start[0], end[0]]);
       } else if (/^\!+\w*/.test(value)) {
         // NOT
         return this.whereNot(element, value.replace(/^\!/, ""));

@@ -14,9 +14,9 @@ exports.RamenFilterGenerator = (properties) => {
     result.prototype[lodash_1.camelCase(element)] = function (value) {
       if (/^\[+\w*/.test(value) && /\w*\]$/.test(value)) {
         return this.whereIn(element,  JSON.parse(value));
-      } else if (/^\%+\w*/.test(value)) {
+      } else if (/^\$+\w*/.test(value)) {
         // LIKE
-        return this.where(element, "LIKE", `%${value.replace(/^\%/, "")}%`);
+        return this.where(element, "LIKE", `%${value.replace(/^\$/, "")}%`);
       } else if (/^\>+\w*/.test(value)) {
         return this.where(element, ">", value.replace(/^\>/, ""));
       } else if (/^\>=+\w*/.test(value)) {

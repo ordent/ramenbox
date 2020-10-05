@@ -61,6 +61,10 @@ exports.RamenTransformerGenerator = (m, n = []) => {
             ? lodash_1.difference(m.properties.concat(m.computed), m.hidden)
             : lodash_1.difference(m.properties, m.hidden);
           for (const element of properties) {
+
+            if (!!item[element] && typeof item[element].then === 'function')
+              item[element] = yield item[element]
+
             if (isJSON(item[element])) {
               result[element] = JSON.parse(item[element]);
             } else {

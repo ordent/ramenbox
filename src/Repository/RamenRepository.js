@@ -62,7 +62,6 @@ class RamenRepository {
       if (!result) {
         throw new Exception_1.NotFoundException("item not found");
       }
-      result.reload();
       return result;
     });
   }

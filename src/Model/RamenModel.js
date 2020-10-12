@@ -13,7 +13,7 @@ class RamenModel extends Model {
     super.boot();
     this.addTrait(
       "@provider:Filterable",
-      RamenFilterGenerator_1.RamenFilterGenerator(this.properties)
+      RamenFilterGenerator_1.RamenFilterGenerator(this.properties, this.relations)
     );
   }
   static get slug() {

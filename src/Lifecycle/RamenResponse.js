@@ -117,7 +117,7 @@ class RamenResponse {
     return __awaiter(this, void 0, void 0, function* () {
       const t = transformer
         ? transformer
-        : RamenTransformerGenerator_1.RamenTransformerFactory(items.pop());
+        : this.getTransformers();
       return yield this.getManager().include(relations).collection(items, t);
     });
   }

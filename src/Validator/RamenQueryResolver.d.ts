@@ -6,8 +6,8 @@ export declare class RamenQueryResolver {
     value,
   }: {
     builder: any;
-    response: any;
-    transform: any;
+    relationName: any;
+    value: any;
   }): Promise<object>;
   
   resolveOperator({

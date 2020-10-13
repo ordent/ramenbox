@@ -168,8 +168,13 @@ class RamenRepository {
       return item;
     });
   }
-  async deleteItem(id) {
-    const item = await this.getModel().find(id);
+  async deleteItem(value) {
+    const item = Number.isInteger(parseInt(value))
+      ? await this.getModel().find(parseInt(value))
+      : await this.getModel()
+        .query()
+        .where(this.getModel().slug, value)
+        .first();
 
     if (item) {
       await item.delete();

@@ -66,15 +66,15 @@ class RamenQueryResolver {
   // }
 
   static resolveOperator(builder, columnName, comparevalues) {
-    // if (comparevalues.includes('|')) {
-		// 	comparevalues = comparevalues.replace('|', '')
-		// 	const comparators = comparevalues.split(',')
-    //   builder.orWhere((orBuilder) => {
-    //     for (const comparator of comparators) {
-    //       this.resolveWhere(orBuilder, columnName, comparator)
-    //     }
-    //   })
-		// }
+    if (comparevalues.includes('|')) {
+			comparevalues = comparevalues.replace('|', '')
+			const comparators = comparevalues.split(',')
+      builder.orWhere((orBuilder) => {
+        for (const comparator of comparators) {
+          this.resolveWhere(orBuilder, columnName, comparator)
+        }
+      })
+		}
 		const comparators = comparevalues.split(/,(?![^\[]*\])/)
 		for (const comparator of comparators) {
 			this.resolveWhere(builder, columnName, comparator)
@@ -114,15 +114,15 @@ class RamenQueryResolver {
     //   customOperator = true
     // }
 		// else 
-		if (compareWith.includes('|')) {
-      this.resolveAndBetween(builder, columnName, compareWith)
-      customOperator = true
-    }
+					// if (compareWith.includes('|')) {
+					//   this.resolveAndBetween(builder, columnName, compareWith)
+					//   customOperator = true
+					// }
     // else if (compareWith.includes('|')) {
     //   this.resolveOr(builder, columnName, compareWith)
     //   customOperator = true
-    // }
-    else if (compareWith.includes('$')) {
+    // } else
+    if (compareWith.includes('$')) {
       this.resolveLike(builder, columnName, compareWith)
       customOperator = true
     } else if (columnName.charAt(0) === '{' && columnName.charAt(columnName.length-1) === '}') {

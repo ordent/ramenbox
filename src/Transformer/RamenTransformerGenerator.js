@@ -118,9 +118,9 @@ exports.RamenTransformerGenerator = (m, n = []) => {
         //git commit note: change to PascalCase
         return this[type](
           item.getRelated(relations[i]),
-          item[relations[i]]().RelatedModel.transformer
-            ? item[relations[i]]().RelatedModel.transformer
-            : exports.RamenTransformerGenerator(item[relations[i]]().RelatedModel, n)
+          item[relations[i]]().relatedQuery.Model.transformer
+            ? item[relations[i]]().relatedQuery.Model.transformer
+            : exports.RamenTransformerGenerator(item[relations[i]]().relatedQuery.Model, n)
         );
       };
     }

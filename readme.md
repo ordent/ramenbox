@@ -17,7 +17,7 @@ Install the PeerDependencies in your host application
     "adonis-lucid-filter": "^1.0.5",
     "@ordentco/adonis-drive": "^1.0.2",
     "@slynova/flydrive": "^1.0.3",
-    "@slynova/flydrive-gcs": "^1.0.3",
+    "@slynova/flydrive-gcs": "^1.0.3"
 ````
 
 set your `config/drive.js`
@@ -96,6 +96,26 @@ const providers = [
   ...
 ]
 ```
+
+<!-- if use gcs for drive
+```sh
+$ npm install googleapis
+```
+
+add provider to `start/app.js`
+```javascript
+const providers = [
+    ...
+    '@ordentco/ramenbox/src/Providers/Google/GoogleServiceProvider.js',
+    ...
+]
+```
+
+and add env keys
+`GOOGLE_API_KEY`
+`GOOGLE_APP_KEY_PATH`
+`GOOGLE_PROJECT_ID`
+`GOOGLE_BUCKET_NAME` -->
 
 ### Controller
 ```` javascript

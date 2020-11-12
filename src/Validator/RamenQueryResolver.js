@@ -57,13 +57,13 @@ class RamenQueryResolver {
     return builder
   }
 
-  // static resolveOrderBy(builder, orderBy, direction) {
-  //   orderBy = orderBy.split(',')
-  //   for (const orderByEl of orderBy) {
-  //     builder.orderBy(orderByEl, direction)
-  //   }
-  //   return builder
-  // }
+  static resolveOrderBy(builder, orderBy, direction) {
+    orderBy = orderBy.split(',')
+    for (const orderByEl of orderBy) {
+      builder.orderBy(orderByEl, direction)
+    }
+    return builder
+  }
 
   static resolveOperator(builder, columnName, comparevalues) {
     if (comparevalues.includes('|')) {

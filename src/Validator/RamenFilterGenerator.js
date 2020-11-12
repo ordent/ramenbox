@@ -16,8 +16,17 @@ exports.RamenFilterGenerator = (properties, relation) => {
 		arrRelation.push(Object.keys(elem)[0])
 	})
 	properties = properties.concat(arrRelation)
+	let sorting = ''
   properties.forEach((element) => {
     result.prototype[lodash_1.camelCase(element)] = function (value) {
+			console.log(element)
+			if (element === 'orderBy'){
+				sorting = value
+				return
+			}
+			if (element === 'direction'){
+				return QueryResolver.resolveOrderBy(this['$query'], sorting, value)
+			}
 			if (arrRelation.includes(element)) {
 				return QueryResolver.resolveQueryRelations(this['$query'], element, value)
 			}

@@ -138,13 +138,13 @@ class RamenQueryResolver {
     }
   }
 
-  // static resolveOr(builder, columnName, value) {
-  //   value = value.replace('|', '')
-  //   builder.orWhere((orBuilder) => {
-  //     orBuilder.orWhere(columnName, value)
-  //   })
-  //   return builder
-  // }
+  static resolveOr(builder, columnName, value) {
+    value = value.replace('|', '')
+    builder.orWhere((orBuilder) => {
+      orBuilder.orWhere(columnName, value)
+    })
+    return builder
+  }
 
   // static resolveOrBetween(builder, columnName, value) {
   //   value = value.split('|')

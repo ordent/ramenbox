@@ -19,7 +19,6 @@ exports.RamenFilterGenerator = (properties, relation) => {
 	let sorting = ''
   properties.forEach((element) => {
     result.prototype[lodash_1.camelCase(element)] = function (value) {
-			console.log(element)
 			if (element === 'orderBy'){
 				sorting = value
 				return

@@ -131,7 +131,10 @@ class RamenQueryResolver {
     } else if (/^\[.*\]$/m.test(compareWith)) {
       this.resolveWhereIn(builder, columnName, compareWith)
       customOperator = true
-    }
+    } else if (compareWith.includes('Ø')) {
+      this.resolveIsNull(builder, columnName)
+			customOperator = true
+		}
 
     if (!customOperator) {
       this.resolveSpecialOperator(builder, columnName, compareWith)
@@ -171,7 +174,12 @@ class RamenQueryResolver {
 		} else {
 			return builder.where(columnName, 'LIKE', '%'+value+'%')
 		}
+	}
+	
+  static resolveIsNull(builder, columnName) {
+			return builder.whereNull(columnName)
   }
+
 
   static resolveWhereIn(builder, columnName, value) {
 		value = value.replace(/^\[|\]$/mg, '')

@@ -16,6 +16,7 @@ exports.RamenFilterGenerator = (properties, relation) => {
 		arrRelation.push(Object.keys(elem)[0])
 	})
 	properties = properties.concat(arrRelation)
+	properties = properties.concat(['orderBy', 'direction'])
 	let sorting = ''
   properties.forEach((element) => {
     result.prototype[lodash_1.camelCase(element)] = function (value) {

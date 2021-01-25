@@ -115,10 +115,31 @@ class RamenResponse {
   }
   rawCollection(items, relations = "", transformer = null) {
     return __awaiter(this, void 0, void 0, function* () {
+			//for setup pagination and 
+			const data = {}
+			if (!items.rows) {
+				if (items.data) {
+					data.rows = items.data
+					data.pages = {}
+					data.pages.total = items.total
+					data.pages.perPage = items.perPage
+					data.pages.page = items.page
+					data.pages.lastPage = items.lastPage
+				}else {
+					data.rows = items
+					data.pages = {}
+					data.pages.total = items.total
+					data.pages.perPage = items.perPage
+					data.pages.page = items.page
+					data.pages.lastPage = items.lastPage
+				}
+			} else {
+				data = items
+			}
       const t = transformer
         ? transformer
         : this.getTransformers();
-      return yield this.getManager().include(relations).collection(items, t);
+      return yield this.getManager().include(relations).paginate(data, t);
     });
   }
   setMeta(item) {

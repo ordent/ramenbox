@@ -40,6 +40,7 @@ const lodash_inflection_1 = require("lodash-inflection");
 const PlainSerializer = require("adonis-bumblebee/src/Bumblebee/Serializers/PlainSerializer");
 const DataSerializer = require("adonis-bumblebee/src/Bumblebee/Serializers/DataSerializer");
 const Utilities_1 = require("../Utilities");
+const Model = use('Model')
 const isJSON = (str) => {
   return !lodash_1.isError(lodash_1.attempt(JSON.parse, str));
 };
@@ -54,8 +55,15 @@ exports.RamenTransformerGenerator = (m, n = []) => {
     }
     transform(model) {
       return __awaiter(this, void 0, void 0, function* () {
-        const result = {};
-        const item = model.toJSON();
+				const result = {};
+				
+				let item
+				if (model instanceof Model) {
+					item = model.toJSON();
+				} else {
+					item = model
+				}
+				
         if (m.properties) {
           const properties = m.computed
             ? lodash_1.difference(m.properties.concat(m.computed), m.hidden)
@@ -85,7 +93,7 @@ exports.RamenTransformerGenerator = (m, n = []) => {
         return result;
       });
     }
-  };
+	};
   if (m.relations) {
     const relations = m.relations.map((element) => {
       return Object.keys(element).pop();
@@ -96,32 +104,35 @@ exports.RamenTransformerGenerator = (m, n = []) => {
       // git commit note: remove pluralize
       result.prototype[`include${model}`] = function transforming(item) {
         let type = "item";
-        if (item[relations[i]]() && item[relations[i]]().$relation) {
-          if (
-            item[relations[i]]().$relation.name === "HasOne" ||
-            item[relations[i]]().$relation.name === "BelongsTo"
-          ) {
-            type = "item";
-          }
-          if (
-            item[relations[i]]().$relation.name === "HasMany" ||
-            item[relations[i]]().$relation.name === "BelongsToMany"
-          ) {
-            type = "collection";
-          }
-        }
-        const n = (item.getRelated(relations[i]) || {}).$relations
-          ? Object.keys(item.getRelated(relations[i]).$relations)
-          : [];
-        // const serializer = type === 'item' ? PlainSerializer : DataSerializer
+				if (item instanceof Model) {
 
-        //git commit note: change to PascalCase
-        return this[type](
-          item.getRelated(relations[i]),
-          item[relations[i]]().relatedQuery.Model.transformer
-            ? item[relations[i]]().relatedQuery.Model.transformer
-            : exports.RamenTransformerGenerator(item[relations[i]]().relatedQuery.Model, n)
-        );
+					if (item[relations[i]]() && item[relations[i]]().$relation) {
+						if (
+							item[relations[i]]().$relation.name === "HasOne" ||
+							item[relations[i]]().$relation.name === "BelongsTo"
+						) {
+							type = "item";
+						}
+						if (
+							item[relations[i]]().$relation.name === "HasMany" ||
+							item[relations[i]]().$relation.name === "BelongsToMany"
+						) {
+							type = "collection";
+						}
+					}
+					const n = (item.getRelated(relations[i]) || {}).$relations
+						? Object.keys(item.getRelated(relations[i]).$relations)
+						: [];
+					// const serializer = type === 'item' ? PlainSerializer : DataSerializer
+	
+					//git commit note: change to PascalCase
+					return this[type](
+						item.getRelated(relations[i]),
+						item[relations[i]]().relatedQuery.Model.transformer
+							? item[relations[i]]().relatedQuery.Model.transformer
+							: exports.RamenTransformerGenerator(item[relations[i]]().relatedQuery.Model, n)
+					);
+				}
       };
     }
   }

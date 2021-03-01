@@ -74,7 +74,7 @@ class RamenResponse {
   getManager() {
     return this.manager;
   }
-  item(item, relations) {
+  item(item, relations = "") {
     return __awaiter(this, void 0, void 0, function* () {
       if (!item) {
         throw new NotFoundException_1.NotFoundException("item not found");
@@ -116,7 +116,7 @@ class RamenResponse {
   rawCollection(items, relations = "", transformer = null) {
     return __awaiter(this, void 0, void 0, function* () {
 			//for setup pagination and 
-			const data = {}
+			let data = {}
 			if (!items.rows) {
 				if (items.data) {
 					data.rows = items.data

@@ -53,7 +53,7 @@ class RamenRepository {
   }
   getItem(value) {
     return __awaiter(this, void 0, void 0, function* () {
-      const result = Number.isInteger(parseInt(value))
+      const result = value.match(/^[0-9]*$/)
         ? yield this.getModel().find(parseInt(value))
         : yield this.getModel()
           .query()
@@ -169,7 +169,7 @@ class RamenRepository {
     });
   }
   async deleteItem(value) {
-    const item = Number.isInteger(parseInt(value))
+    const item = value.match(/^[0-9]*$/)
       ? await this.getModel().find(parseInt(value))
       : await this.getModel()
         .query()

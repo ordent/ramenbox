@@ -24,7 +24,7 @@
     "floppy": "^1.0.0",
     "indicative": "^7.4.4",
     "is-base64": "^1.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "lodash-inflection": "^1.5.0",
     "mime-types": "^2.1.26",
     "shortid": "^2.2.15",

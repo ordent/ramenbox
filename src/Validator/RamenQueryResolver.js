@@ -3,7 +3,7 @@
 // const reservedKeyword = ['orderBy', 'direction', 'page', 'limit', 'relations', 'locale', 'array', 'json']
 
 class RamenQueryResolver {
-  constructor() {}
+  constructor() { }
 
   // static commonQueryBuilder(builder, queryParams) {
   //   if (queryParams['array']) 
@@ -31,7 +31,7 @@ class RamenQueryResolver {
 
   //   return builder.fetch()
   // }
-  
+
   // static resolveRelations(builder, input) {
   //   let relations = input.split('@')
   //   relations.forEach(relationElement => {
@@ -50,9 +50,9 @@ class RamenQueryResolver {
 
     relationQueries.forEach(queryElement => {
       const objectElement = queryElement.split(':')
-        builder.whereHas(relationName, (innerBuilder) => {
-          this.resolveOperator(innerBuilder, objectElement[0], objectElement[1])
-        })
+      builder.whereHas(relationName, (innerBuilder) => {
+        this.resolveOperator(innerBuilder, objectElement[0], objectElement[1])
+      })
     })
     return builder
   }
@@ -67,18 +67,18 @@ class RamenQueryResolver {
 
   static resolveOperator(builder, columnName, comparevalues) {
     if (comparevalues.includes('|')) {
-			comparevalues = comparevalues.replace('|', '')
-			const comparators = comparevalues.split(',')
+      comparevalues = comparevalues.replace('|', '')
+      const comparators = comparevalues.split(',')
       builder.orWhere((orBuilder) => {
         for (const comparator of comparators) {
           this.resolveWhere(orBuilder, columnName, comparator)
         }
       })
-		}
-		const comparators = comparevalues.split(/,(?![^\[]*\])/)
-		for (const comparator of comparators) {
-			this.resolveWhere(builder, columnName, comparator)
-		}
+    }
+    const comparators = comparevalues.split(/,(?![^\[]*\])/)
+    for (const comparator of comparators) {
+      this.resolveWhere(builder, columnName, comparator)
+    }
   }
 
   static resolveSpecialOperator(builder, columnName, compareWith) {
@@ -113,19 +113,22 @@ class RamenQueryResolver {
     //   this.resolveOrBetween(builder, columnName, compareWith)
     //   customOperator = true
     // }
-		// else 
-					// if (compareWith.includes('|')) {
-					//   this.resolveAndBetween(builder, columnName, compareWith)
-					//   customOperator = true
-					// }
+    // else 
+    // if (compareWith.includes('|')) {
+    //   this.resolveAndBetween(builder, columnName, compareWith)
+    //   customOperator = true
+    // }
     // else if (compareWith.includes('|')) {
     //   this.resolveOr(builder, columnName, compareWith)
     //   customOperator = true
     // } else
-    if (compareWith.includes('$')) {
+    if(compareWith.startsWith('::')) {
+      this.resolveJsonLike(builder, columnName, compareWith)
+      customOperator = true
+    } else if (compareWith.includes('$')) {
       this.resolveLike(builder, columnName, compareWith)
       customOperator = true
-    } else if (columnName.charAt(0) === '{' && columnName.charAt(columnName.length-1) === '}') {
+    } else if (columnName.charAt(0) === '{' && columnName.charAt(columnName.length - 1) === '}') {
       this.resolveJsonRaw(builder, columnName, compareWith)
       customOperator = true
     } else if (/^\[.*\]$/m.test(compareWith)) {
@@ -133,8 +136,8 @@ class RamenQueryResolver {
       customOperator = true
     } else if (compareWith.includes('Ø')) {
       this.resolveIsNull(builder, columnName)
-			customOperator = true
-		}
+      customOperator = true
+    }
 
     if (!customOperator) {
       this.resolveSpecialOperator(builder, columnName, compareWith)
@@ -168,22 +171,31 @@ class RamenQueryResolver {
   }
 
   static resolveLike(builder, columnName, value) {
-		value = value.replace(/^\$/, "")
-		if (builder.db.connectionClient === 'pg') {
-			return builder.where(columnName, 'ILIKE', '%'+value+'%')
-		} else {
-			return builder.where(columnName, 'LIKE', '%'+value+'%')
-		}
-	}
-	
+    value = value.slice(1)
+    if (builder.db.connectionClient === 'pg') {
+      return builder.whereRaw(`${columnName} ILIKE '%${value}%'`)
+    } else {
+      return builder.whereRaw(`${columnName} LIKE '%${value}%'`)
+    }
+  }
+
+  static resolveJsonLike(builder, columnName, value) {
+    value = value.slice(2)
+    columnName = columnName + value.split('=')[0]
+    value = value.slice(value.indexOf('=')+1)
+
+    return this.resolveLike(builder, columnName, value)
+    // return this.resolveWhere(builder, columnName, value)
+  }
+
   static resolveIsNull(builder, columnName) {
-			return builder.whereNull(columnName)
+    return builder.whereNull(columnName)
   }
 
 
   static resolveWhereIn(builder, columnName, value) {
-		value = value.replace(/^\[|\]$/mg, '')
-		return builder.whereIn(columnName, value.split(','))
+    value = value.replace(/^\[|\]$/mg, '')
+    return builder.whereIn(columnName, value.split(','))
   }
 
   static resolveWhereWithOperator(builder, operator, columnName, value) {
@@ -204,9 +216,9 @@ class RamenQueryResolver {
       else
         queryStr += column
 
-      if (i === columns.length-2)
+      if (i === columns.length - 2)
         queryStr = queryStr + '->>'
-      else if (i != columns.length-1)
+      else if (i != columns.length - 1)
         queryStr = queryStr + '->'
     }
 
@@ -220,7 +232,7 @@ class RamenQueryResolver {
   }
 
   static resolveJsonRaw(builder, query, value) {
-    query = query.substring(1, query.length-1)
+    query = query.substring(1, query.length - 1)
     query += ' = ?'
     builder.whereRaw(query, value)
   }

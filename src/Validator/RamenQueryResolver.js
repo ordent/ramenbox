@@ -131,7 +131,7 @@ class RamenQueryResolver {
     } else if (columnName.charAt(0) === '{' && columnName.charAt(columnName.length - 1) === '}') {
       this.resolveJsonRaw(builder, columnName, compareWith)
       customOperator = true
-    } else if (/^\[.*\]$/m.test(compareWith)) {
+    } else if (/^\[.*\]$/m.test(compareWith) || /^\[.*\]\!$/m.test(compareWith)) {
       this.resolveWhereIn(builder, columnName, compareWith)
       customOperator = true
     } else if (compareWith.includes('Ø')) {
@@ -194,7 +194,16 @@ class RamenQueryResolver {
 
 
   static resolveWhereIn(builder, columnName, value) {
+    let not = false
+    if(value.endsWith('!')) {
+      not = true
+      value = value.substring(0, value.length - 1);
+      console.log(value)
+    }
     value = value.replace(/^\[|\]$/mg, '')
+    if (not) {
+      return builder.whereNotIn(columnName, value.split(','))
+    }
     return builder.whereIn(columnName, value.split(','))
   }
 

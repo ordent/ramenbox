@@ -67,13 +67,16 @@ class RamenQueryResolver {
 
   static resolveOperator(builder, columnName, comparevalues) {
     if (comparevalues.includes('|')) {
+
       comparevalues = comparevalues.replace('|', '')
       const comparators = comparevalues.split(',')
-      builder.orWhere((orBuilder) => {
-        for (const comparator of comparators) {
-          this.resolveWhere(orBuilder, columnName, comparator)
-        }
-      })
+      if(!comparevalues.includes('|')){
+        builder.orWhere((orBuilder) => {
+          for (const comparator of comparators) {
+            this.resolveWhere(orBuilder, columnName, comparator)
+          }
+        })
+      }
     }
     const comparators = comparevalues.split(/,(?![^\[]*\])/)
     for (const comparator of comparators) {
@@ -122,7 +125,10 @@ class RamenQueryResolver {
     //   this.resolveOr(builder, columnName, compareWith)
     //   customOperator = true
     // } else
-    if (compareWith.startsWith('::')) {
+    if (compareWith.includes('|')) {
+      this.orRawBuilder(builder, columnName, compareWith)
+      customOperator = true
+    } else if (compareWith.startsWith('::')) {
       this.resolveJsonLike(builder, columnName, compareWith)
       customOperator = true
     } else if (compareWith.includes('$')) {
@@ -142,6 +148,53 @@ class RamenQueryResolver {
     if (!customOperator) {
       this.resolveSpecialOperator(builder, columnName, compareWith)
     }
+  }
+
+  static orRawBuilder(builder, columnName, value) {
+    value = value.split('|')
+    let sql = ''
+    const operators = ['>=', '<=', '!=', '$', '>', '<']
+    for (let i = 0; i < value.length; i++) {
+      if (value[i] === '') continue;
+      
+      let _operator = null
+      let _column = i < 1 ? columnName : value[i].split('=')[0]
+      let _value = i < 1 ? value[i] : value[i].split(value[i].substring(0, value[i].indexOf('=') + 1))[1]
+
+      if(_value.startsWith('::')){
+        _value = _value.slice(2)
+        _column = _column + _value.split('=')[0]
+        _value = _value.slice(_value.indexOf('=') + 1)
+      }
+
+      for (const foundOperator of operators) {
+        if (_value.includes(foundOperator)) {
+          _operator = foundOperator
+          _value = _value.replace(foundOperator, '')
+          break
+        }
+      }
+
+      if (!_operator) {
+        if(i === 0) sql = `${_column} = '${_value}'`
+        else sql = sql + `or ${_column} = '${_value}'`
+      } else {
+        if(_operator === '$') {
+          if (builder.db.connectionClient === 'pg') {
+            if(i === 0) sql = `${_column} ILIKE '%${_value}%'`
+            else sql = sql + ` or ${_column} ILIKE '%${_value}%'`
+          } else {
+            if(i === 0) sql = `${_column} LIKE '%${_value}%'`
+            else sql = sql + ` or ${_column} LIKE '%${_value}%'`
+          }
+        } else {
+          if(i === 0) sql = `${_column} ${_operator} '${_value}'`
+          else sql = sql + ` or ${_column} ${_operator} '${_value}'`
+        }
+      }
+    }
+
+    return builder.whereRaw(`(${sql})`)
   }
 
   static resolveOr(builder, columnName, value) {
@@ -171,27 +224,12 @@ class RamenQueryResolver {
   }
 
   static resolveLike(builder, columnName, value) {
-    const orChecker = this.orChecker(value)
-    const or = orChecker.or_status
-    value = orChecker.value
-    
     value = value.slice(1)
     if (builder.db.connectionClient === 'pg') {
-      if (or) return builder.orWhereRaw(`${columnName} ILIKE '%${value}%'`)
       return builder.whereRaw(`${columnName} ILIKE '%${value}%'`)
     } else {
-      if (or) return builder.orWhereRaw(`${columnName} LIKE '%${value}%'`)
       return builder.whereRaw(`${columnName} LIKE '%${value}%'`)
     }
-  }
-
-  static orChecker(value){
-    let or_status = false
-    if (value.startsWith('or*')) {
-      or_status = true
-      value = value.slice(3)
-    }
-    return { or_status, value }
   }
 
   static resolveJsonLike(builder, columnName, value) {

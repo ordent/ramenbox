@@ -176,7 +176,6 @@ class RamenQueryResolver {
     value = orChecker.value
     
     value = value.slice(1)
-    console.log(value)
     if (builder.db.connectionClient === 'pg') {
       if (or) return builder.orWhereRaw(`${columnName} ILIKE '%${value}%'`)
       return builder.whereRaw(`${columnName} ILIKE '%${value}%'`)
@@ -214,7 +213,6 @@ class RamenQueryResolver {
     if (value.endsWith('!')) {
       not = true
       value = value.substring(0, value.length - 1);
-      console.log(value)
     }
     value = value.replace(/^\[|\]$/mg, '')
     if (not) {

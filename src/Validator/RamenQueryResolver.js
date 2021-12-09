@@ -122,7 +122,7 @@ class RamenQueryResolver {
     //   this.resolveOr(builder, columnName, compareWith)
     //   customOperator = true
     // } else
-    if(compareWith.startsWith('::')) {
+    if (compareWith.startsWith('::')) {
       this.resolveJsonLike(builder, columnName, compareWith)
       customOperator = true
     } else if (compareWith.includes('$')) {
@@ -171,18 +171,34 @@ class RamenQueryResolver {
   }
 
   static resolveLike(builder, columnName, value) {
+    const orChecker = this.orChecker(value)
+    const or = orChecker.or_status
+    value = orChecker.value
+    
     value = value.slice(1)
+    console.log(value)
     if (builder.db.connectionClient === 'pg') {
+      if (or) return builder.orWhereRaw(`${columnName} ILIKE '%${value}%'`)
       return builder.whereRaw(`${columnName} ILIKE '%${value}%'`)
     } else {
+      if (or) return builder.orWhereRaw(`${columnName} LIKE '%${value}%'`)
       return builder.whereRaw(`${columnName} LIKE '%${value}%'`)
     }
+  }
+
+  static orChecker(value){
+    let or_status = false
+    if (value.startsWith('or*')) {
+      or_status = true
+      value = value.slice(3)
+    }
+    return { or_status, value }
   }
 
   static resolveJsonLike(builder, columnName, value) {
     value = value.slice(2)
     columnName = columnName + value.split('=')[0]
-    value = value.slice(value.indexOf('=')+1)
+    value = value.slice(value.indexOf('=') + 1)
 
     return this.resolveLike(builder, columnName, value)
     // return this.resolveWhere(builder, columnName, value)
@@ -195,7 +211,7 @@ class RamenQueryResolver {
 
   static resolveWhereIn(builder, columnName, value) {
     let not = false
-    if(value.endsWith('!')) {
+    if (value.endsWith('!')) {
       not = true
       value = value.substring(0, value.length - 1);
       console.log(value)
